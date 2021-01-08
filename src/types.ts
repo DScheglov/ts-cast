@@ -2,18 +2,21 @@ export type RuleFn<T> = (value: T) => string | null;
 
 export type TypeGuard<T> = (value: any) => value is T;
 
-export type Caster<T> = (value: any, context?: string) => T;
+export type CasterFn<T> = {
+  (value: any, context?: string): T;
+  name: string;
+};
 
-export type Meets<T> = (...rules: RuleFn<T>[]) => Caster<T>;
+export type Validate<T> = (...rules: RuleFn<T>[]) => CasterFn<T>;
 
-export type CasterObj<T> = Caster<T> & {
-  optional: Caster<T | null | undefined> & { meets: Meets<T> };
-  required: Caster<T> & { meets: Meets<T> };
-  meets: Meets<T>;
+export type Caster<T> = CasterFn<T> & {
+  optional: CasterFn<T | null | undefined> & { validate: Validate<T> };
+  required: CasterFn<T> & { validate: Validate<T> };
+  validate: Validate<T>;
 };
 
 export type StructSchema<S extends {}> = {
-  [field in keyof S]: Caster<S[field]>;
+  [field in keyof S]: CasterFn<S[field]>;
 };
 
 export type Tuple = {
@@ -21,5 +24,5 @@ export type Tuple = {
 };
 
 export type TupleSchema<T extends Tuple> = {
-  [index in number]: Caster<T[index]>;
+  [index in number]: CasterFn<T[index]>;
 };

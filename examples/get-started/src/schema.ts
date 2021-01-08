@@ -2,11 +2,11 @@ import { int, num, str, struct, tuple, array } from 'rt-ts/src';
 import { toBe } from 'rt-ts/src/validation';
 import v from 'validator';
 
-const toBeEmail = toBe(v.isEmail, "should be a valid email");
+const toBeEmail = toBe(v.isEmail, 'is not a valid email.');
 
 export const Person = struct({
   name: str,
-  email: str.meets(toBeEmail),
+  email: str.validate(toBeEmail),
 });
 
 export const Coords = tuple(num, num);

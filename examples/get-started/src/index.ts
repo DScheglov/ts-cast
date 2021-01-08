@@ -4,7 +4,7 @@ const me = Person({ name: "John Smith", email: "john@smith.com" });
 
 const meAgain: TPerson = {
   name: "John Smith",
-  email: "john.smith@gmail.com", // but email will not be validated with validator.isEmail
+  email: "john.smith@gmailcom", // but email will not be validated with validator.isEmail
 };
 
 const myBook = Book({
