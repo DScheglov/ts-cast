@@ -1,45 +1,44 @@
-import { isEmpty } from './guards';
 import { validate } from './validate';
-import { CasterFn, Caster, TypeGuard } from './types';
+import {
+  CasterFn, Caster, TypeGuard, RuleFn,
+} from './types';
+import optional from './optional';
+import required from './required';
+import map from './map';
+import defValue from './default';
+import { nullable } from './nullable';
 
-const id = <T>(value: T) => value;
+const createCasterObj = <T>(casterFn: CasterFn<T>): Caster<T> =>
+  Object.defineProperties(casterFn, {
+    name: {
+      value: casterFn.name,
+    },
+    optional: {
+      enumerable: true,
+      get: () => createCasterObj(optional(casterFn)),
+    },
+    nullable: {
+      enumerable: true,
+      get: () => createCasterObj(nullable(casterFn)),
+    },
+    validate: {
+      enumerable: true,
+      value: (...rules: RuleFn<T>[]) => createCasterObj(validate(casterFn, rules)),
+    },
+    map: {
+      enumerable: true,
+      value: <D>(transform: (value: T) => D) => createCasterObj(map(casterFn, transform)),
+    },
+    default: {
+      enumerable: true,
+      value: <D extends T>(def: D) => createCasterObj(defValue(casterFn, def)),
+    },
+  });
 
 const createCaster = <T>(
   typeName: string,
   typeGuard: TypeGuard<T>,
-  transform: CasterFn<T> = id,
-): Caster<T> => {
-  const optional = (value: any, context?: string): T | undefined | null => {
-    if (isEmpty(value)) return value;
-    if (typeGuard(value)) return transform(value, context);
-
-    throw TypeError(
-      `${value}${context ? ` in ${context}` : ''} is not ${typeName}.`,
-    );
-  };
-
-  const required = (value: any, context?: string): T => {
-    if (isEmpty(value)) {
-      throw new TypeError(
-        `${typeName} is expecred but "${value}" received${
-          context ? ` in ${context}` : ''
-        }.`,
-      );
-    }
-    if (typeGuard(value)) return transform(value, context);
-
-    throw TypeError(`${value} is not ${typeName}.`);
-  };
-
-  optional.validate = validate(optional);
-  required.validate = validate(required);
-  required.optional = optional;
-  required.required = required;
-
-  Reflect.defineProperty(required.optional, 'name', { value: `${typeName}?` });
-  Reflect.defineProperty(required, 'name', { value: typeName });
-
-  return required;
-};
+  transform?: CasterFn<T>,
+): Caster<T> => createCasterObj(required(typeName, typeGuard, transform));
 
 export default createCaster;

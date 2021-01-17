@@ -1,24 +1,24 @@
 {
   "compilerOptions": {
-    "sourceMap": false,
-    "target": "es6",
+    "target": "ESNext",
     "outDir": "./esm",
     "baseUrl": "./src",
     "alwaysStrict": true,
     "noImplicitAny": true,
     "experimentalDecorators": false,
     "emitDecoratorMetadata": false,
-    "module": "ES6",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "allowSyntheticDefaultImports": false,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "resolveJsonModule": true,
     "removeComments": true,
     "declaration": true,
-    "importHelpers": false
+    "importHelpers": false,
+    "strictNullChecks": true,
+    "sourceMap": true
   },
   "types": ["jest", "node"],
   "lib": ["es6", "es7"],
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "src/**/*.test.ts"]
+  "include": ["./src/**/*.ts"]
 }

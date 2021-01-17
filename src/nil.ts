@@ -5,7 +5,7 @@ const optional = (value: any, context?: string): null | undefined => {
   );
 };
 
-Reflect.defineProperty(optional, 'name', { value: 'null?' });
+Object.defineProperty(optional, 'name', { value: 'null?' });
 
 export const nil = (value: any, context?: string): null => {
   if (value === null) return null;
@@ -16,4 +16,4 @@ export const nil = (value: any, context?: string): null => {
 
 nil.optional = optional;
 
-Reflect.defineProperty(nil, 'name', { value: 'null' });
+Object.defineProperty(nil, 'name', { value: 'null' });

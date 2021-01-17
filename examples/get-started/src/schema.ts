@@ -1,22 +1,32 @@
-import { int, num, str, struct, tuple, array } from 'rt-ts/src';
-import { toBe } from 'rt-ts/src/validation';
 import v from 'validator';
+import { int, num, str, struct, tuple, array, union, nil } from '../../../src';
+import createCaster from '../../../src/create-caster';
+import { toBe } from '../../../src/validation';
 
-const toBeEmail = toBe(v.isEmail, 'is not a valid email.');
+interface TEmail extends String {};
+interface TUUID extends String {};
 
-export const Person = struct({
-  name: str,
-  email: str.validate(toBeEmail),
+const isEmail = (value: any): value is TEmail => v.isEmail(value);
+const isUUID = (value: any): value is TUUID => v.isUUID(value);
+
+const Email = createCaster('email', isEmail).map(email => email.toLowerCase());
+const UUID = createCaster('uuid', isUUID).map(id => id.toUpperCase());
+const nonEmptyStr = str.validate(toBe(v => v !== '', 'a non-empty string'));
+
+export const Person = struct({ 
+  id: UUID,
+  name: nonEmptyStr,
+  email: Email.optional,
 });
 
-export const Coords = tuple(num, num);
+export const Coords = tuple(num, num.optional);
 
 export const Book = struct({
-  title: str,
+  title: str.default(''),
   annotation: str.optional,
-  year: int,
+  year: int.validate(toBe(x => x > 2000, "greater then 2000")),
   authors: array(Person),
-  coords: Coords.optional,
+  coords: union(Coords, nil), // .default(null),
 });
 
 export type TPerson = ReturnType<typeof Person>;

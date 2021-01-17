@@ -1,26 +1,26 @@
 import createCaster from './create-caster';
-import { Caster, TypeGuard } from './types';
+import { Caster, CasterFn, TypeGuard } from './types';
 
-const transformArray = <T>(caster: Caster<T>) => (
+const transformArray = <T>(caster: CasterFn<T>) => (
   value: any[],
   context?: string,
 ) => {
-  if (value.length === 0) {
-    try {
-      caster(undefined);
-      return [];
-    } catch (err) {
-      throw new TypeError(
-        `Expected${context ? ` ${context}` : ''} to have at least one item.`,
-      );
-    }
+  if (value.length > 0) {
+    return value.map((item, index) =>
+      caster(item, context ? `${context}[${index}]` : `#${index}`));
   }
 
-  return value.map((item, index) =>
-    caster(item, context ? `${context}[${index}]` : `${index}`));
+  try {
+    caster(undefined);
+    return [];
+  } catch (err) {
+    throw new TypeError(
+      `Expected${context ? ` ${context}` : ''} to have at least one item.`,
+    );
+  }
 };
 
-export const array = <T>(caster: Caster<T>, typeName: string = 'array') =>
+export const array = <T>(caster: CasterFn<T>, typeName: string = `${caster.name}[]`): Caster<T[]> =>
   createCaster(
     typeName,
     Array.isArray as TypeGuard<T[]>,

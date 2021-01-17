@@ -24,7 +24,7 @@ import { isEmail } from 'validator';
 
 export const Person = struct({
   name: str,
-  email: str.meets(toBe(isEmail, "should be a valid email")),
+  email: str.validate(toBe(isEmail, "a valid email")),
 });
 
 export const Coords = tuple(num, num);

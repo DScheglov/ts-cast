@@ -1,10 +1,12 @@
 import createCaster from './create-caster';
 import { isAnObj } from './guards';
-import { Caster, StructSchema, TypeGuard } from './types';
+import {
+  Caster, StructSchema, TypeGuard, OptionalUndefined,
+} from './types';
 
 const transformStruct = <S extends {}>(schema: StructSchema<S>) => {
   const fields = Object.entries(schema) as Array<[keyof S, Caster<any>]>;
-  return (value: any, context?: string): S =>
+  return (value: any, context?: string): OptionalUndefined<S> =>
     fields.reduce(
       (target, [field, caster]) => Object.defineProperty(target, field, {
         enumerable: true,
