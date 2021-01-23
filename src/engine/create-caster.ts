@@ -8,30 +8,28 @@ import map from './map';
 import defValue from './default';
 import { nullable } from './nullable';
 
-const createCasterObj = <T>(casterFn: CasterFn<T>): Caster<T> =>
+export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
   Object.defineProperties(casterFn, {
-    name: {
-      value: casterFn.name,
-    },
+    name: Object.getOwnPropertyDescriptor(casterFn, 'name')!,
     optional: {
       enumerable: true,
-      get: () => createCasterObj(optional(casterFn)),
+      get: () => casterApi(optional(casterFn)),
     },
     nullable: {
       enumerable: true,
-      get: () => createCasterObj(nullable(casterFn)),
+      get: () => casterApi(nullable(casterFn)),
     },
     validate: {
       enumerable: true,
-      value: (...rules: RuleFn<T>[]) => createCasterObj(validate(casterFn, rules)),
+      value: (...rules: RuleFn<T>[]) => casterApi(validate(casterFn, rules)),
     },
     map: {
       enumerable: true,
-      value: <D>(transform: (value: T) => D) => createCasterObj(map(casterFn, transform)),
+      value: <D>(transform: (value: T) => D) => casterApi(map(casterFn, transform)),
     },
     default: {
       enumerable: true,
-      value: <D extends T>(def: D) => createCasterObj(defValue(casterFn, def)),
+      value: <D extends T>(def: D) => casterApi(defValue(casterFn, def)),
     },
   });
 
@@ -39,6 +37,6 @@ const createCaster = <T>(
   typeName: string,
   typeGuard: TypeGuard<T>,
   transform?: CasterFn<T>,
-): Caster<T> => createCasterObj(required(typeName, typeGuard, transform));
+): Caster<T> => casterApi(required(typeName, typeGuard, transform));
 
 export default createCaster;

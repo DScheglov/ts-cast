@@ -1,8 +1,8 @@
-import createCaster from './create-caster';
-import { isATuple } from './guards';
+import createCaster from './engine/create-caster';
+import { isATuple } from './engine/guards';
 import {
   CasterFn, Caster, Tuple, TupleSchema, TypeGuard,
-} from './types';
+} from './engine/types';
 
 const transformTuple = <T extends Tuple>(schema: TupleSchema<T>) =>
   (value: any, context?: string) => {

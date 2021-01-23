@@ -1,5 +1,5 @@
-import createCaster from './create-caster';
-import { Caster, CasterFn } from './types';
+import createCaster from './engine/create-caster';
+import { Caster, CasterFn } from './engine/types';
 
 const checkTypes = (casters: CasterFn<any>[], types: string[]) => {
   const lastType = types.length > 1 ? types[types.length - 1] : null;

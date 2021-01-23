@@ -1,8 +1,8 @@
-import createCaster from './create-caster';
-import { isAnObj } from './guards';
+import createCaster from './engine/create-caster';
+import { isAnObj } from './engine/guards';
 import {
   Caster, StructSchema, TypeGuard, OptionalUndefined,
-} from './types';
+} from './engine/types';
 
 const transformStruct = <S extends {}>(schema: StructSchema<S>) => {
   const fields = Object.entries(schema) as Array<[keyof S, Caster<any>]>;

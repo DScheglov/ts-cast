@@ -1,7 +1,7 @@
 import { isEmpty } from './guards';
 import { CasterFn } from './types';
 
-const map = <T, D>(
+const map = <T, D = T>(
   caster: CasterFn<T>,
   transform: (value: Exclude<T, null | undefined>) => D,
 ): CasterFn<D | Exclude<T, Exclude<T, null | undefined>>> => Object.defineProperty(

@@ -1,5 +1,5 @@
-import createCaster from './create-caster';
-import { Caster, CasterFn, TypeGuard } from './types';
+import createCaster from './engine/create-caster';
+import { Caster, CasterFn, TypeGuard } from './engine/types';
 
 const transformArray = <T>(caster: CasterFn<T>) => (
   value: any[],

@@ -1,4 +1,4 @@
-export { default as createCaster } from './create-caster';
+export { default as createCaster } from './engine/create-caster';
 
 export { int } from './int';
 export { str } from './str';
@@ -6,6 +6,7 @@ export { num } from './num';
 export { bool } from './bool';
 export { nil } from './nil';
 export { indif } from './indif';
+export { ref } from './ref';
 export { values } from './values';
 export { struct } from './struct';
 export { record } from './record';

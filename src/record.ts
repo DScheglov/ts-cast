@@ -1,6 +1,6 @@
-import createCaster from './create-caster';
-import { isAnObj } from './guards';
-import { Caster, CasterFn } from './types';
+import createCaster from './engine/create-caster';
+import { isAnObj } from './engine/guards';
+import { Caster, CasterFn } from './engine/types';
 
 const recordTypeName = (keyTypeName: string, valueTypeName: string) =>
   `Record<${keyTypeName}, ${valueTypeName}>`;
