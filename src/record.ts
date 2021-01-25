@@ -1,6 +1,6 @@
 import createCaster from './engine/create-caster';
 import { isAnObj } from './engine/guards';
-import { Caster, CasterFn } from './engine/types';
+import { Caster, CasterFn, ErrorReporter } from './engine/types';
 
 const recordTypeName = (keyTypeName: string, valueTypeName: string) =>
   `Record<${keyTypeName}, ${valueTypeName}>`;
@@ -8,11 +8,13 @@ const recordTypeName = (keyTypeName: string, valueTypeName: string) =>
 const checkFields = <K extends string, T>(
   keyCaster: CasterFn<K>,
   valueCaster: CasterFn<T>,
-) => <O extends {}>(value: O, context?: string) =>
+) => <O extends {}>(value: O, context?: string, reportError?: ErrorReporter) =>
     Object.entries(value).reduce(
       (obj, [key, val]) => {
-        const newKey = keyCaster(key, context ? `key of ${context}` : 'key');
-        const newValue = valueCaster(val, context ? `value of ${context}.${key}` : key);
+        const newKey = keyCaster(key, context ? `key of ${context}` : 'key', reportError);
+        const newValue = valueCaster(
+          val, context ? `value of ${context}.${key}` : key, reportError,
+        );
 
         obj[newKey] = newValue;
         return obj;

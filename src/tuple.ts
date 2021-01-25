@@ -1,13 +1,18 @@
 import createCaster from './engine/create-caster';
 import { isATuple } from './engine/guards';
+import { throwTypeError } from './engine/throw-type-error';
 import {
-  CasterFn, Caster, Tuple, TupleSchema, TypeGuard,
+  CasterFn, Caster, Tuple, TupleSchema, TypeGuard, ErrorReporter,
 } from './engine/types';
 
 const transformTuple = <T extends Tuple>(schema: TupleSchema<T>) =>
-  (value: any, context?: string) => {
+  (value: any, context?: string, reportError: ErrorReporter = throwTypeError) => {
     const casted = ((schema as any[]).map(
-      (caster, index) => caster(value[index], context ? `${context}[${index}]` : index),
+      (caster, index) => caster(
+        value[index],
+        context ? `${context}[${index}]` : index,
+        reportError,
+      ),
     ) as any) as T;
 
     let last = (casted as Array<any> & T).length - 1;

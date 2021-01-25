@@ -1,17 +1,24 @@
-const optional = (value: any, context?: string): null | undefined => {
+import { throwTypeError } from './engine/throw-type-error';
+import { ErrorReporter } from './engine/types';
+
+const optional = (
+  value: any, context?: string, reportError: ErrorReporter = throwTypeError,
+): null | undefined => {
   if (value == null) return value;
-  throw new TypeError(
-    `null expected${context ? ` in ${context}` : ''} but received ${value}.`,
-  );
+  return reportError(
+    `null is expected${context ? ` in ${context}` : ''} but "${value}" received.`,
+  ) as any;
 };
 
 Object.defineProperty(optional, 'name', { value: 'null?' });
 
-export const nil = (value: any, context?: string): null => {
+export const nil = (
+  value: any, context?: string, reportError: ErrorReporter = throwTypeError,
+): null => {
   if (value === null) return null;
-  throw new TypeError(
-    `null expected${context ? ` in ${context}` : ''} but received ${value}.`,
-  );
+  return reportError(
+    `null is expected${context ? ` in ${context}` : ''} but "${value}" received.`,
+  ) as any;
 };
 
 nil.optional = optional;

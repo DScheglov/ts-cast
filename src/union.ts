@@ -1,9 +1,14 @@
 import createCaster from './engine/create-caster';
-import { Caster, CasterFn } from './engine/types';
+import { throwTypeError } from './engine/throw-type-error';
+import { Caster, CasterFn, ErrorReporter } from './engine/types';
 
 const checkTypes = (casters: CasterFn<any>[], types: string[]) => {
   const lastType = types.length > 1 ? types[types.length - 1] : null;
-  const unionCasterFn = (value: any, context?: string) => {
+  const unionCasterFn = (
+    value: any,
+    context?: string,
+    reportError: ErrorReporter = throwTypeError,
+  ) => {
     let match: any;
 
     const isMatched = casters.some(caster => {
@@ -17,7 +22,7 @@ const checkTypes = (casters: CasterFn<any>[], types: string[]) => {
 
     if (isMatched) return match;
 
-    throw new TypeError(
+    return reportError(
       `${
         types.slice(0, -1).join(', ')
       }${

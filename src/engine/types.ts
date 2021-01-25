@@ -2,8 +2,10 @@ export type RuleFn<T> = (value: T) => string | null;
 
 export type TypeGuard<T> = (value: any) => value is T;
 
+export type ErrorReporter = (message: string, context?: string) => void;
+
 export interface CasterFn<T> {
-  (value: any, context?: string): T;
+  (value: any, context?: string, reportError?: ErrorReporter): T;
   name: string;
 }
 

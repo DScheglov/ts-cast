@@ -1,9 +1,13 @@
 import createCaster from './engine/create-caster';
-import { Caster, CasterFn, TypeGuard } from './engine/types';
+import { throwTypeError } from './engine/throw-type-error';
+import {
+  Caster, CasterFn, ErrorReporter, TypeGuard,
+} from './engine/types';
 
 const transformArray = <T>(caster: CasterFn<T>) => (
   value: any[],
   context?: string,
+  reportError: ErrorReporter = throwTypeError,
 ) => {
   if (value.length > 0) {
     return value.map((item, index) =>
@@ -14,7 +18,7 @@ const transformArray = <T>(caster: CasterFn<T>) => (
     caster(undefined);
     return [];
   } catch (err) {
-    throw new TypeError(
+    return reportError(
       `Expected${context ? ` ${context}` : ''} to have at least one item.`,
     );
   }

@@ -1,14 +1,15 @@
 import createCaster from './engine/create-caster';
 import { isAnObj } from './engine/guards';
-import { Caster, CasterFn } from './engine/types';
+import { Caster, CasterFn, ErrorReporter } from './engine/types';
 
 const combineTypeName = (schema: CasterFn<any>[]) => schema.map(caster => caster.name).join(' & ');
 
-const combineStructs = (schema: CasterFn<{}>[]) => (value: any, context?: string) =>
-  schema.reduce(
-    (obj, caster) => Object.assign(obj, caster(obj, context)),
-    { ...value },
-  );
+const combineStructs = (schema: CasterFn<{}>[]) =>
+  (value: any, context?: string, reportError?: ErrorReporter) =>
+    schema.reduce(
+      (obj, caster) => Object.assign(obj, caster(obj, context, reportError)),
+      { ...value },
+    );
 
 export const combine: {
   <A extends {}>(casterA: CasterFn<A>): Caster<A>;
