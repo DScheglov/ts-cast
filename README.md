@@ -1,4 +1,5 @@
 # rt-ts
+[![Coverage Status](https://coveralls.io/repos/github/DScheglov/rt-ts/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/rt-ts?branch=master)
 Runtime type checking for Typescript projects
 
 ## Installation
@@ -69,12 +70,3 @@ const book: TBook = myBook;
 
 console.log(JSON.stringify(book, null, 2));
 ```
-
-## TODO:
- - [ ] Cover with tests
- - [ ] Setup CI/CD and Publish `v0.0.1`
- - [ ] Add `date` and `datetime` types
- - [ ] Add operators over the caster (`oneOfTypes`, `allOfTypes`)
- - [ ] Add general validation rules (`eq`, `neq`)
- - [ ] Add operators over rules (`any`, `all`)
- - [ ] Add operators over predicates (`or`, `and`, `not`)
