@@ -4,14 +4,13 @@ on: [push, pull_request]
 
 jobs:
   test:
-    name: Test on Node ${{ matrix.node }} on ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
+    name: Test on Node ${{ matrix.node }} on ubuntu-latest
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         node: [10, 12, 14]
-        os: [ubuntu-latest, windows-latest]
 
     steps:
       - name: Clone repo
@@ -31,9 +30,9 @@ jobs:
       - name: Test with Coverage
         run: npm run test
 
-      # - name: Publish on Coveralls
-      #   uses: coverallsapp/github-action@master
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     flag-name: ${{matrix.os}}-node-${{ matrix.node }}
-      #     parallel: true
+      - name: Publish on Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: node-${{ matrix.node }}
+          parallel: true
