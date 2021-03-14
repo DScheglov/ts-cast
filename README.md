@@ -1,5 +1,6 @@
 # rt-ts
 [![Coverage Status](https://coveralls.io/repos/github/DScheglov/rt-ts/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/rt-ts?branch=master)
+
 Runtime type checking for Typescript projects
 
 ## Installation
