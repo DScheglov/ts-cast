@@ -3,13 +3,37 @@ name: Run Tests
 on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  test:
+    name: Test on Node ${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [10, 12, 14]
+        os: [ubuntu-latest, windows-latest]
+
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
         with:
-          node-version: 12
-      - run: |
-          npm install
-          npm test
+          node-version: ${{ matrix.node }}
+
+      - name: Install dependencies
+        run: npm install # switch to `npm ci` when Node.js 6 support is dropped
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Test with Coverage
+        run: npm run test
+
+      # - name: Publish on Coveralls
+      #   uses: coverallsapp/github-action@master
+      #   with:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     flag-name: ${{matrix.os}}-node-${{ matrix.node }}
+      #     parallel: true
