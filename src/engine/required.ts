@@ -1,18 +1,19 @@
-import { isEmpty } from './guards';
 import { throwTypeError } from './throw-type-error';
-import { CasterFn, ErrorReporter, TypeGuard } from './types';
+import {
+  CasterFn, ErrorReporter, TypeChecker, TypeGuard,
+} from './types';
 
 export const id = <T>(value: T): T => value;
 
 const required = <T>(
-  typeName: string, typeGuard: TypeGuard<T>, transform: CasterFn<T> = id,
+  typeName: string, typeGuard: TypeGuard<T> | TypeChecker, transform: CasterFn<T> = id,
 ): CasterFn<T> => {
   const casterFn = (
     value: any,
     context?: string,
     reportError: ErrorReporter = throwTypeError,
   ): T => {
-    if (!isEmpty(value) && typeGuard(value)) {
+    if (value !== undefined && typeGuard(value)) {
       return transform(value, context, reportError);
     }
 

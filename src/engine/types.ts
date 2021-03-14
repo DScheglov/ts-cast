@@ -2,7 +2,9 @@ export type RuleFn<T> = (value: T) => string | null;
 
 export type TypeGuard<T> = (value: any) => value is T;
 
-export type ErrorReporter = (message: string, context?: string) => void;
+export type TypeChecker = (value: any) => boolean;
+
+export type ErrorReporter = (message: string, context?: string) => never;
 
 export interface CasterFn<T> {
   (value: any, context?: string, reportError?: ErrorReporter): T;
@@ -10,13 +12,17 @@ export interface CasterFn<T> {
 }
 
 export interface Caster<T> extends CasterFn<T> {
-  optional: Caster<T | null | undefined>;
+  optional: Caster<T | undefined>;
   nullable: Caster<T | null>;
-  validate(...rules: RuleFn<Exclude<T, null | undefined>>[]): Caster<T>;
+  restrict(...rules: RuleFn<Exclude<T, null | undefined>>[]): Caster<T>;
   map<D>(
     transform: (value: Exclude<T, null | undefined>
   ) => D): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
   default(defaltValue: T): Caster<Exclude<T, undefined>>;
+}
+
+export interface StructCaster<S extends {}> extends Caster<S> {
+  partial: Caster<Partial<S>>
 }
 
 export type StructSchema<S extends {}> = {
