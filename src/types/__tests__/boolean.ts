@@ -1,8 +1,8 @@
-import { bool } from '../..';
+import { boolean } from '../..';
 
 describe('bool', () => {
   it('bool.name === "boolean"', () => {
-    expect(bool.name).toBe('boolean');
+    expect(boolean.name).toBe('boolean');
   });
 
   describe('Caster Interface', () => {
@@ -13,19 +13,19 @@ describe('bool', () => {
       ['map'],
       ['default'],
     ])('bool.%s is a Function', methodName => {
-      expect((bool as any)[methodName]).toBeInstanceOf(Function);
+      expect((boolean as any)[methodName]).toBeInstanceOf(Function);
     });
   });
 
   describe('::required:ok', () => {
     it.each([[false], [true]])('bypasses %s', value => {
-      expect(bool(value)).toBe(value);
+      expect(boolean(value)).toBe(value);
     });
   });
 
   describe('bool.optional:ok', () => {
     it.each([[undefined], [false], [true]])('bypasses %s', value => {
-      expect(bool.optional(value)).toBe(value);
+      expect(boolean.optional(value)).toBe(value);
     });
   });
 
@@ -44,7 +44,7 @@ describe('bool', () => {
       [[]],
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', value => {
-      expect(() => bool(value)).toThrow(
+      expect(() => boolean(value)).toThrow(
         new TypeError(`boolean is expected but "${value}" received.`),
       );
     });
@@ -63,7 +63,7 @@ describe('bool', () => {
       [[]],
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', value => {
-      expect(() => bool.optional(value)).toThrow(
+      expect(() => boolean.optional(value)).toThrow(
         new TypeError(`boolean is expected but "${value}" received.`),
       );
     });

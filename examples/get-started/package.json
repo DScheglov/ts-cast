@@ -4,7 +4,7 @@
     "start": "ts-node ./src"
   },
   "dependencies": {
-    "rt-ts": "file:../../",
+    "ts-cast": "file:../../",
     "validator": "^13.5.2"
   },
   "devDependencies": {

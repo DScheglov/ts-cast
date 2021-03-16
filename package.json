@@ -1,5 +1,5 @@
 {
-  "name": "rt-tc",
+  "name": "ts-cast",
   "version": "0.0.1",
   "description": "Runtime typechecking",
   "main": "lib/index.js",

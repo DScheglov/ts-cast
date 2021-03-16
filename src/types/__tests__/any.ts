@@ -1,8 +1,8 @@
-import { indif } from '../..';
+import { any } from '../..';
 
 describe('indif', () => {
   it('indif.name === "any"', () => {
-    expect(indif.name).toBe('any');
+    expect(any.name).toBe('any');
   });
 
   describe('NO CASTER INTERFACE', () => {
@@ -12,7 +12,7 @@ describe('indif', () => {
       ['restrict'],
       ['map'],
     ])('indif.%s is undefined', fieldName => {
-      expect((indif as any)[fieldName]).toBeUndefined();
+      expect((any as any)[fieldName]).toBeUndefined();
     });
   });
 
@@ -36,7 +36,7 @@ describe('indif', () => {
       [100],
       [Math.PI],
     ])('bypasses "%s"', value => {
-      expect(indif(value)).toBe(value);
+      expect(any(value)).toBe(value);
     });
   });
 });

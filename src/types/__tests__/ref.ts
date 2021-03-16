@@ -1,14 +1,14 @@
 import { ref } from '../..';
 import { StructCaster } from '../../engine/types';
 import { array } from '../array';
-import { int } from '../int';
-import { str } from '../str';
+import { integer } from '../integer';
+import { string } from '../string';
 import { struct } from '../struct';
 
 describe('ref', () => {
   const Person = struct({
-    name: str,
-    email: str,
+    name: string,
+    email: string,
   }, 'Person');
 
   const PersonRef = ref(() => Person, 'Person');
@@ -52,14 +52,14 @@ describe('ref (mutual)', () => {
   };
 
   const Person: StructCaster<TPerson> = struct({
-    name: str,
-    email: str,
+    name: string,
+    email: string,
     books: array(ref(() => Book)), // eslint-disable-line no-use-before-define
   }, 'Person');
 
   const Book: StructCaster<TBook> = struct({
-    title: str,
-    year: int,
+    title: string,
+    year: integer,
     author: ref(() => Person),
   }, 'Book');
 

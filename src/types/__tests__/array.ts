@@ -1,24 +1,24 @@
 import { array } from '../..';
-import { bool } from '../bool';
-import { indif } from '../indif';
-import { int } from '../int';
-import { num } from '../num';
+import { boolean } from '../boolean';
+import { any } from '../any';
+import { integer } from '../integer';
+import { number } from '../number';
 import { record } from '../record';
-import { str } from '../str';
+import { string } from '../string';
 
 describe('array', () => {
   it('array(int, "Ints").name === "Ints"', () => {
-    expect(array(int, 'Ints').name).toBe('Ints');
+    expect(array(integer, 'Ints').name).toBe('Ints');
   });
 
   describe('array().name', () => {
     it.each([
-      ['integer', int],
-      ['number', num],
-      ['string', str],
-      ['boolean', bool],
-      ['any', indif],
-      ['Record<string, any>', record(str, indif)],
+      ['integer', integer],
+      ['number', number],
+      ['string', string],
+      ['boolean', boolean],
+      ['any', any],
+      ['Record<string, any>', record(string, any)],
     ])('array(type) is %s', (_, caster) => {
       expect(array(caster).name).toBe(`${caster.name}[]`);
     });
@@ -32,7 +32,7 @@ describe('array', () => {
       ['map'],
       ['default'],
     ])('array(int).%s is a Function', methodName => {
-      expect((array(int) as any)[methodName]).toBeInstanceOf(Function);
+      expect((array(integer) as any)[methodName]).toBeInstanceOf(Function);
     });
   });
 
@@ -43,7 +43,7 @@ describe('array', () => {
       [[1, 2]],
       [[1, 2, 3, 4, 5]],
     ])('bypasses %s', list => {
-      expect(array(int)(list)).toEqual(list);
+      expect(array(integer)(list)).toEqual(list);
     });
   });
 
@@ -54,7 +54,7 @@ describe('array', () => {
       [[1, 2]],
       [[1, 2, 3, 4, 5]],
     ])('bypasses %s', list => {
-      expect(array(int.optional)(list)).toEqual(list);
+      expect(array(integer.optional)(list)).toEqual(list);
     });
   });
 
@@ -64,7 +64,7 @@ describe('array', () => {
       [[1, true], 1],
       [[1, 2, 3, 4, undefined], 4],
     ])('throws a TypeError for %s', (list, index) => {
-      expect(() => array(int)(list)).toThrowError(
+      expect(() => array(integer)(list)).toThrowError(
         new TypeError(`integer is expected in #${index} but "${list[index]}" received.`),
       );
     });
@@ -76,7 +76,7 @@ describe('array', () => {
       [[1, true], 1],
       [[1, 2, 3, 4, undefined], 4],
     ])('throws a TypeError for %s', (list, index) => {
-      expect(() => array(int)(list, 'ints')).toThrowError(
+      expect(() => array(integer)(list, 'ints')).toThrowError(
         new TypeError(`integer is expected in ints[${index}] but "${list[index]}" received.`),
       );
     });

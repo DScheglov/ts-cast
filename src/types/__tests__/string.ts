@@ -1,30 +1,30 @@
-import { str } from '../str';
+import { string } from '../string';
 import { toBe } from '../../restrictions';
 
 describe('str', () => {
   describe('Caster interface', () => {
     it('str.name === "number"', () => {
-      expect(str.name).toBe('string');
+      expect(string.name).toBe('string');
     });
 
     it('str.optional is a Function', () => {
-      expect(str.optional).toBeInstanceOf(Function);
+      expect(string.optional).toBeInstanceOf(Function);
     });
 
     it('str.nullable is a Function', () => {
-      expect(str.nullable).toBeInstanceOf(Function);
+      expect(string.nullable).toBeInstanceOf(Function);
     });
 
     it('str.restrict is a Function', () => {
-      expect(str.restrict).toBeInstanceOf(Function);
+      expect(string.restrict).toBeInstanceOf(Function);
     });
 
     it('str.map is a Function', () => {
-      expect(str.map).toBeInstanceOf(Function);
+      expect(string.map).toBeInstanceOf(Function);
     });
 
     it('str.default is a Function', () => {
-      expect(str.default).toBeInstanceOf(Function);
+      expect(string.default).toBeInstanceOf(Function);
     });
   });
 
@@ -33,7 +33,7 @@ describe('str', () => {
       [''],
       ['hello world'],
     ])('bypasses "%s"', value => {
-      expect(str(value)).toBe(value);
+      expect(string(value)).toBe(value);
     });
   });
 
@@ -53,7 +53,7 @@ describe('str', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => str(invalidValue),
+        () => string(invalidValue),
       ).toThrow(new TypeError(`string is expected but "${invalidValue}" received.`));
     });
   });
@@ -74,7 +74,7 @@ describe('str', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => str(invalidValue, 'param'),
+        () => string(invalidValue, 'param'),
       ).toThrow(new TypeError(`string is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -85,7 +85,7 @@ describe('str', () => {
       ['hello world'],
       [undefined],
     ])('bypasses "%s"', value => {
-      expect(str.optional(value)).toBe(value);
+      expect(string.optional(value)).toBe(value);
     });
   });
 
@@ -103,7 +103,7 @@ describe('str', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => str.optional(invalidValue),
+        () => string.optional(invalidValue),
       ).toThrow(new TypeError(`string is expected but "${invalidValue}" received.`));
     });
   });
@@ -122,7 +122,7 @@ describe('str', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => str.optional(invalidValue, 'param'),
+        () => string.optional(invalidValue, 'param'),
       ).toThrow(new TypeError(`string is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -136,7 +136,7 @@ describe('str', () => {
       ['hello world', isNonEmpty],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(str.restrict(spy)(value)).toBe(value);
+      expect(string.restrict(spy)(value)).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -152,7 +152,7 @@ describe('str', () => {
     ])('validates %s with rule and fails with message', (value, rule, message) => {
       const spy = jest.fn(rule);
       expect(
-        () => str.restrict(spy)(value),
+        () => string.restrict(spy)(value),
       ).toThrow(new TypeError(`expected value is ${message} but received ${value}.`));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -176,7 +176,7 @@ describe('str', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn();
       expect(
-        () => str.restrict(rule)(invalidValue),
+        () => string.restrict(rule)(invalidValue),
       ).toThrow(new TypeError(`string is expected but "${invalidValue}" received.`));
       expect(rule).not.toBeCalled();
     });
@@ -188,7 +188,7 @@ describe('str', () => {
       ['hello world'],
     ])('bypasses "%s"', value => {
       const mapper = jest.fn(v => v.toUpperCase());
-      expect(str.map(mapper)(value)).toBe(value.toUpperCase());
+      expect(string.map(mapper)(value)).toBe(value.toUpperCase());
       expect(mapper).toHaveBeenCalledWith(value);
     });
 
@@ -196,7 +196,7 @@ describe('str', () => {
       [undefined],
     ])('doesn\'t call a mmapper for "%s"', value => {
       const mapper = jest.fn(v => v.toUpperCase());
-      expect(str.optional.map(mapper)(value)).toBe(value);
+      expect(string.optional.map(mapper)(value)).toBe(value);
       expect(mapper).not.toHaveBeenCalled();
     });
   });

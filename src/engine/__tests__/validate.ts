@@ -1,19 +1,19 @@
 import { array } from '../../types/array';
-import { bool } from '../../types/bool';
+import { boolean } from '../../types/boolean';
 import { validate } from '../validate';
 import { throwTypeError } from '../throw-type-error';
-import { int } from '../../types/int';
+import { integer } from '../../types/integer';
 import { nil } from '../../types/nil';
-import { str } from '../../types/str';
+import { string } from '../../types/string';
 import { struct } from '../../types/struct';
 import { values } from '../../types/values';
 
 describe('checkTypes', () => {
   describe('returns errors for primitive types', () => {
     it.each([
-      [int, int.name],
-      [str, str.name],
-      [bool, bool.name],
+      [integer, integer.name],
+      [string, string.name],
+      [boolean, boolean.name],
       [nil, nil.name],
       [values(1, 2, 3), '1|2|3'],
     ])('%s(undefined) returns [{ message: "%s is expected but "undefined" received.", context: undefined }]',
@@ -30,9 +30,9 @@ describe('checkTypes', () => {
 
   describe('returns result for primitive types', () => {
     it.each([
-      [int, 1],
-      [str, 'some text'],
-      [bool, true],
+      [integer, 1],
+      [string, 'some text'],
+      [boolean, true],
       [nil, null],
       [values(1, 2, 3), 3],
     ])('%s returns { ok: true, result: %s }',
@@ -47,7 +47,7 @@ describe('checkTypes', () => {
   });
 
   describe('works with arrays', () => {
-    const checkList = validate(array(int));
+    const checkList = validate(array(integer));
 
     it('returns { result: [1, 2, 3], ok: true, errors: [] } for [1, 2, 3]', () => {
       expect(checkList([1, 2, 3])).toEqual({
@@ -80,13 +80,13 @@ describe('checkTypes', () => {
 
   describe('works with struct', () => {
     const TRequest = struct({
-      params: struct({ id: str }),
+      params: struct({ id: string }),
       query: struct({
         format: values('csv', 'json').optional,
       }),
       body: struct({
-        name: str,
-        email: str,
+        name: string,
+        email: string,
       }),
     }, 'TRequest');
 

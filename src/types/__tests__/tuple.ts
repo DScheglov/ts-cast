@@ -1,18 +1,18 @@
 import { tuple } from '../..';
-import { int } from '../int';
+import { integer } from '../integer';
 import { nil } from '../nil';
-import { num } from '../num';
-import { str } from '../str';
+import { number } from '../number';
+import { string } from '../string';
 import { values } from '../values';
 
 describe('tuple', () => {
   describe('tuple.name', () => {
     it('tuple(int, str).name is [integer, string]', () => {
-      expect(tuple(int, str).name).toBe('[integer, string]');
+      expect(tuple(integer, string).name).toBe('[integer, string]');
     });
 
     it('tuple(num, nil).name is [number, null]', () => {
-      expect(tuple(num, nil).name).toBe('[number, null]');
+      expect(tuple(number, nil).name).toBe('[number, null]');
     });
   });
 
@@ -31,7 +31,7 @@ describe('tuple', () => {
   });
 
   describe('::required', () => {
-    const intCoords = tuple(int, int);
+    const intCoords = tuple(integer, integer);
 
     it.each([
       [[0, 0]],
@@ -107,7 +107,7 @@ describe('tuple', () => {
   });
 
   describe('::last-item-optional', () => {
-    const intCoords = tuple(int, int.optional);
+    const intCoords = tuple(integer, integer.optional);
 
     it.each([
       [[0, 0]],

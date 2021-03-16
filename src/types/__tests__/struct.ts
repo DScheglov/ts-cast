@@ -1,16 +1,16 @@
 import { struct } from '../..';
 import { array } from '../array';
-import { int } from '../int';
-import { str } from '../str';
+import { integer } from '../integer';
+import { string } from '../string';
 
 describe('struct', () => {
   describe('Caster Interface', () => {
     it('struct({ x: int, y: int }, "IntVector2D").name === "IntVector2D"', () => {
-      expect(struct({ x: int, y: int }, 'IntVector2D').name).toBe('IntVector2D');
+      expect(struct({ x: integer, y: integer }, 'IntVector2D').name).toBe('IntVector2D');
     });
 
     it('struct({ x: int, y: int }).name === "struct"', () => {
-      expect(struct({ x: int, y: int }).name).toBe('struct');
+      expect(struct({ x: integer, y: integer }).name).toBe('struct');
     });
 
     it.each([
@@ -21,19 +21,19 @@ describe('struct', () => {
       ['default'],
       ['partial'],
     ])('struct({ x: int, y: int }).%s is a Function', methodName => {
-      expect((struct({ x: int, y: int }) as any)[methodName]).toBeInstanceOf(Function);
+      expect((struct({ x: integer, y: integer }) as any)[methodName]).toBeInstanceOf(Function);
     });
   });
 
   describe('specific', () => {
     it('returns new object', () => {
-      const Person = struct({ name: str, email: str });
+      const Person = struct({ name: string, email: string });
       const person = { name: 'John', email: 'join@mail.com' };
       expect(Person(person)).not.toBe(person);
     });
 
     it('returns object with null prototype', () => {
-      const Person = struct({ name: str, email: str });
+      const Person = struct({ name: string, email: string });
       const person = Person({ name: 'John', email: 'join@mail.com' });
       expect(Object.getPrototypeOf(person)).toBeNull();
     });
@@ -46,7 +46,7 @@ describe('struct', () => {
         email: string,
       };
 
-      const Person = struct<TPerson>({ name: str, email: str });
+      const Person = struct<TPerson>({ name: string, email: string });
 
       expect(Person).toBeInstanceOf(Function);
     });
@@ -58,11 +58,11 @@ describe('struct', () => {
       };
 
       const Book = struct<TBook>({
-        title: str,
+        title: string,
         authors: array(struct({
-          name: str,
-          email: str,
-          age: int.optional,
+          name: string,
+          email: string,
+          age: integer.optional,
         })),
       });
 
@@ -70,7 +70,7 @@ describe('struct', () => {
     });
 
     it('generates a new type', () => {
-      const Person = struct({ name: str, email: str });
+      const Person = struct({ name: string, email: string });
 
       type TPerson = ReturnType<typeof Person>;
 
@@ -81,7 +81,7 @@ describe('struct', () => {
   });
 
   describe('::required', () => {
-    const Person = struct({ name: str, email: str });
+    const Person = struct({ name: string, email: string });
 
     it.each([
       [{ name: '', email: '' }],
@@ -105,7 +105,7 @@ describe('struct', () => {
   });
 
   describe('::optional', () => {
-    const OptionalPerson = struct({ name: str, email: str }).optional;
+    const OptionalPerson = struct({ name: string, email: string }).optional;
 
     it.each([
       [undefined],
@@ -128,7 +128,7 @@ describe('struct', () => {
   });
 
   describe('::optional fields', () => {
-    const Person = struct({ name: str, email: str.optional });
+    const Person = struct({ name: string, email: string.optional });
 
     it.each([
       [{ name: '', email: '' }],
@@ -155,7 +155,7 @@ describe('struct', () => {
   });
 
   describe('::partial', () => {
-    const Person = struct({ name: str, email: str });
+    const Person = struct({ name: string, email: string });
 
     it.each([
       [{ name: '', email: '' }],

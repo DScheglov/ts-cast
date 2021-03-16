@@ -1,11 +1,11 @@
 import { union } from '../..';
-import { int } from '../int';
-import { str } from '../str';
+import { integer } from '../integer';
+import { string } from '../string';
 
 describe('union', () => {
   describe('Caster Interface', () => {
     it('union(int, str).name === "integer|string"', () => {
-      expect(union(int, str).name).toBe('integer|string');
+      expect(union(integer, string).name).toBe('integer|string');
     });
 
     it.each([
@@ -15,7 +15,7 @@ describe('union', () => {
       ['map'],
       ['default'],
     ])('union(int, str).%s is a Function', methodName => {
-      expect((union(int, str) as any)[methodName]).toBeInstanceOf(Function);
+      expect((union(integer, string) as any)[methodName]).toBeInstanceOf(Function);
     });
   });
 
@@ -25,12 +25,12 @@ describe('union', () => {
     });
 
     it('throws error if one caster is specified', () => {
-      expect(() => (union as any)(int)).toThrow(new Error('At least two types should be specified.'));
+      expect(() => (union as any)(integer)).toThrow(new Error('At least two types should be specified.'));
     });
 
     it('doesn\'t call the second type caster if value matches the first one ', () => {
-      const intSpy = jest.fn(int);
-      const strSpy = jest.fn(str);
+      const intSpy = jest.fn(integer);
+      const strSpy = jest.fn(string);
       const intOrStr = union(intSpy, strSpy);
 
       expect(intOrStr(1)).toBe(1);
@@ -41,7 +41,7 @@ describe('union', () => {
   });
 
   describe('::required', () => {
-    const intOrStr = union(int, str);
+    const intOrStr = union(integer, string);
 
     it.each([
       [Number.MIN_SAFE_INTEGER],

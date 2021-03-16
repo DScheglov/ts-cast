@@ -16,27 +16,27 @@ const neq = (unwanted: number) =>
 describe('text.int', () => {
   describe('Caster interface', () => {
     it('text.int.name === "number"', () => {
-      expect(text.int.name).toBe('text.integer');
+      expect(text.integer.name).toBe('text.integer');
     });
 
     it('text.int.optional is a Function', () => {
-      expect(text.int.optional).toBeInstanceOf(Function);
+      expect(text.integer.optional).toBeInstanceOf(Function);
     });
 
     it('text.int.nullable is a Function', () => {
-      expect(text.int.nullable).toBeInstanceOf(Function);
+      expect(text.integer.nullable).toBeInstanceOf(Function);
     });
 
     it('text.int.restrict is a Function', () => {
-      expect(text.int.restrict).toBeInstanceOf(Function);
+      expect(text.integer.restrict).toBeInstanceOf(Function);
     });
 
     it('text.int.map is a Function', () => {
-      expect(text.int.map).toBeInstanceOf(Function);
+      expect(text.integer.map).toBeInstanceOf(Function);
     });
 
     it('text.int.default is a Function', () => {
-      expect(text.int.default).toBeInstanceOf(Function);
+      expect(text.integer.default).toBeInstanceOf(Function);
     });
   });
 
@@ -48,7 +48,7 @@ describe('text.int', () => {
       [0],
       [100],
     ])('bypases %s', value => {
-      expect(text.int(value.toString())).toBe(value);
+      expect(text.integer(value.toString())).toBe(value);
     });
 
     it.each([
@@ -73,7 +73,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => text.int(invalidValue),
+        () => text.integer(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
     });
 
@@ -99,7 +99,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => text.int(invalidValue, 'param'),
+        () => text.integer(invalidValue, 'param'),
       ).toThrow(new TypeError(`text.integer is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -113,7 +113,7 @@ describe('text.int', () => {
       [0],
       [100],
     ])('bypases %s', value => {
-      expect(text.int.optional(value === undefined ? value : value.toString())).toBe(value);
+      expect(text.integer.optional(value === undefined ? value : value.toString())).toBe(value);
     });
 
     it.each([
@@ -136,7 +136,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => text.int.optional(invalidValue),
+        () => text.integer.optional(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
     });
 
@@ -160,7 +160,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => text.int.optional(invalidValue, 'param'),
+        () => text.integer.optional(invalidValue, 'param'),
       ).toThrow(new TypeError(`text.integer is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -174,7 +174,7 @@ describe('text.int', () => {
       [0],
       [100],
     ])('bypases %s', value => {
-      expect(text.int.nullable(value !== null ? value.toString() : value)).toBe(value);
+      expect(text.integer.nullable(value !== null ? value.toString() : value)).toBe(value);
     });
 
     it.each([
@@ -198,7 +198,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => text.int.nullable(invalidValue),
+        () => text.integer.nullable(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
     });
 
@@ -223,7 +223,7 @@ describe('text.int', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => text.int.nullable(invalidValue, 'param'),
+        () => text.integer.nullable(invalidValue, 'param'),
       ).toThrow(new TypeError(`text.integer is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -237,7 +237,7 @@ describe('text.int', () => {
       [100, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(text.int.restrict(spy)(value.toString())).toBe(value);
+      expect(text.integer.restrict(spy)(value.toString())).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -252,7 +252,7 @@ describe('text.int', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => text.int.restrict(spy)(value.toString()),
+        () => text.integer.restrict(spy)(value.toString()),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -268,7 +268,7 @@ describe('text.int', () => {
       const spy = jest.fn(rule);
       const errorMessage = `param should be ${message} but received ${value}.`;
       expect(
-        () => text.int.restrict(spy)(value.toString(), 'param'),
+        () => text.integer.restrict(spy)(value.toString(), 'param'),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -291,7 +291,7 @@ describe('text.int', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => text.int.restrict(rule)(invalidValue),
+        () => text.integer.restrict(rule)(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();
@@ -307,7 +307,7 @@ describe('text.int', () => {
       [100, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(text.int.optional.restrict(spy)(value.toString())).toBe(value);
+      expect(text.integer.optional.restrict(spy)(value.toString())).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -322,7 +322,7 @@ describe('text.int', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => text.int.optional.restrict(spy)(value.toString()),
+        () => text.integer.optional.restrict(spy)(value.toString()),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -332,7 +332,7 @@ describe('text.int', () => {
       [undefined],
     ])('bypasses %s and doesn\'t call rule', value => {
       const rule = jest.fn();
-      expect(text.int.optional.restrict(rule)(value)).toBe(value);
+      expect(text.integer.optional.restrict(rule)(value)).toBe(value);
       expect(rule).not.toBeCalled();
     });
 
@@ -352,7 +352,7 @@ describe('text.int', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => text.int.optional.restrict(rule)(invalidValue),
+        () => text.integer.optional.restrict(rule)(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();
@@ -368,7 +368,7 @@ describe('text.int', () => {
       [100, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(text.int.restrict(spy).optional(value.toString())).toBe(value);
+      expect(text.integer.restrict(spy).optional(value.toString())).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -383,7 +383,7 @@ describe('text.int', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => text.int.restrict(spy).optional(value.toString()),
+        () => text.integer.restrict(spy).optional(value.toString()),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -393,7 +393,7 @@ describe('text.int', () => {
       [undefined],
     ])('bypasses %s and doesn\'t call rule', value => {
       const rule = jest.fn();
-      expect(text.int.restrict(rule).optional(value)).toBe(value);
+      expect(text.integer.restrict(rule).optional(value)).toBe(value);
       expect(rule).not.toBeCalled();
     });
 
@@ -413,7 +413,7 @@ describe('text.int', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => text.int.restrict(rule).optional(invalidValue),
+        () => text.integer.restrict(rule).optional(invalidValue),
       ).toThrow(new TypeError(`text.integer is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();

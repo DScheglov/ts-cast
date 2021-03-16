@@ -1,21 +1,21 @@
 import {
-  prod, struct, record, num, str,
+  prod, struct, record, number, string,
 } from '../..';
-import { indif } from '../indif';
+import { any } from '../any';
 
 describe('prod', () => {
   const Point = struct({
-    x: num,
-    y: num,
+    x: number,
+    y: number,
   }, 'Point');
 
   const Address = struct({
-    city: str,
-    street: str,
-    zip: str,
+    city: string,
+    street: string,
+    zip: string,
   }, 'Address');
 
-  const AnyRecord = record(str, indif);
+  const AnyRecord = record(string, any);
 
   const Geo = prod(Point, Address);
 

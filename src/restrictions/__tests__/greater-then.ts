@@ -42,4 +42,33 @@ describe('notLessThen', () => {
   it('notLessThen and gte is the same', () => {
     expect(notLessThen).toBe(gte);
   });
+
+  it.each([
+    ['gt(5)', 'not less then 5', gte(5)],
+    ['gt("A")', 'not less then A', gte('A')],
+  ])('%s.name is "%s"', (_, name, predicate) => {
+    expect(predicate.name).toBe(name);
+  });
+
+  it.each([
+    [5, 10],
+    [5, 5],
+    [0, 100],
+    [0, Math.PI],
+    [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+    ['A', 'B'],
+    ['A', 'A'],
+  ])('gt(%s) return true for %s', (limit, value) => {
+    expect(gte(limit)(value)).toBe(true);
+  });
+
+  it.each([
+    [10, 5],
+    [100, 0],
+    [Math.PI, 0],
+    [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
+    ['B', 'A'],
+  ])('gt(%s) return false for %s', (limit, value) => {
+    expect(gte(limit)(value)).toBe(false);
+  });
 });

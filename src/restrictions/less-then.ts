@@ -1,4 +1,4 @@
-import { withName } from './predicate';
+import { withName } from '../helpers/names';
 
 export const lessThen = <T extends number | string>(limit: T) => withName(
   (value: T): boolean => value < limit,

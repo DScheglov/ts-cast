@@ -1,4 +1,4 @@
 import { createCaster } from '../engine';
 import { isInt } from '../engine/guards';
 
-export const int = createCaster('integer', isInt);
+export const integer = createCaster('integer', isInt);

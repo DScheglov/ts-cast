@@ -1,17 +1,17 @@
-# rt-ts
-[![Coverage Status](https://coveralls.io/repos/github/DScheglov/rt-ts/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/rt-ts?branch=master)
+# ts-cast
+[![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/ts-cast?branch=master)
 
 Runtime type checking for Typescript projects
 
 ## Installation
 
 ```shell
-npm i rt-ts
+npm i ts-cast
 ```
 
 ## Overview
 
-The package **rt-ts** is a type checking utility for contract programming.
+The package **ts-cast** is a type checking utility for contract programming.
 
 It allows to describe data schema of the incoming resources (requests to the application or responses from other applications) and then validate correspondent resources with the schema.
 
@@ -20,8 +20,8 @@ Let's start with an example:
 **./src/schema.ts**
 
 ```typescript
-import { int, num, str, struct, tuple, array } from 'rt-ts';
-import { toBe } from 'rt-ts/validation';
+import { int, num, str, struct, tuple, array } from 'ts-cast';
+import { toBe } from 'ts-cast/validation';
 import { isEmail } from 'validator';
 
 export const Person = struct({

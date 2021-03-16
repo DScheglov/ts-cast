@@ -1,4 +1,4 @@
-import { num } from '../..';
+import { number } from '../..';
 import { toBe } from '../../restrictions';
 
 const lt = (max: number) =>
@@ -16,27 +16,27 @@ const neq = (unwanted: number) =>
 describe('num', () => {
   describe('Caster interface', () => {
     it('num.name === "number"', () => {
-      expect(num.name).toBe('number');
+      expect(number.name).toBe('number');
     });
 
     it('num.optional is a Function', () => {
-      expect(num.optional).toBeInstanceOf(Function);
+      expect(number.optional).toBeInstanceOf(Function);
     });
 
     it('num.nullable is a Function', () => {
-      expect(num.nullable).toBeInstanceOf(Function);
+      expect(number.nullable).toBeInstanceOf(Function);
     });
 
     it('num.restrict is a Function', () => {
-      expect(num.restrict).toBeInstanceOf(Function);
+      expect(number.restrict).toBeInstanceOf(Function);
     });
 
     it('num.map is a Function', () => {
-      expect(num.map).toBeInstanceOf(Function);
+      expect(number.map).toBeInstanceOf(Function);
     });
 
     it('num.default is a Function', () => {
-      expect(num.default).toBeInstanceOf(Function);
+      expect(number.default).toBeInstanceOf(Function);
     });
   });
 
@@ -50,7 +50,7 @@ describe('num', () => {
       [100],
       [Math.PI],
     ])('bypases %s', value => {
-      expect(num(value)).toBe(value);
+      expect(number(value)).toBe(value);
     });
   });
 
@@ -68,7 +68,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => num(invalidValue),
+        () => number(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
     });
   });
@@ -87,7 +87,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => num(invalidValue, 'param'),
+        () => number(invalidValue, 'param'),
       ).toThrow(new TypeError(`number is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -103,7 +103,7 @@ describe('num', () => {
       [100],
       [Math.PI],
     ])('bypases %s', value => {
-      expect(num.optional(value)).toBe(value);
+      expect(number.optional(value)).toBe(value);
     });
   });
   describe('num.optional:fail', () => {
@@ -118,7 +118,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => num.optional(invalidValue),
+        () => number.optional(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
     });
   });
@@ -135,7 +135,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => num.optional(invalidValue, 'param'),
+        () => number.optional(invalidValue, 'param'),
       ).toThrow(new TypeError(`number is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -151,7 +151,7 @@ describe('num', () => {
       [100],
       [Math.PI],
     ])('bypases %s', value => {
-      expect(num.default(1000)(value)).toBe(value !== undefined ? value : 1000);
+      expect(number.default(1000)(value)).toBe(value !== undefined ? value : 1000);
     });
   });
   describe('num.default(1000):fail', () => {
@@ -167,7 +167,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s"', invalidValue => {
       expect(
-        () => num.default(1000)(invalidValue),
+        () => number.default(1000)(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
     });
   });
@@ -185,7 +185,7 @@ describe('num', () => {
       [[1, 2, 3]],
     ])('throws a TypeError for "%s" (with context info)', invalidValue => {
       expect(
-        () => num.default(1000)(invalidValue, 'param'),
+        () => number.default(1000)(invalidValue, 'param'),
       ).toThrow(new TypeError(`number is expected in param but "${invalidValue}" received.`));
     });
   });
@@ -201,7 +201,7 @@ describe('num', () => {
       [Math.PI, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(num.restrict(spy)(value)).toBe(value);
+      expect(number.restrict(spy)(value)).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -220,7 +220,7 @@ describe('num', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => num.restrict(spy)(value),
+        () => number.restrict(spy)(value),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -240,7 +240,7 @@ describe('num', () => {
       const spy = jest.fn(rule);
       const errorMessage = `param should be ${message} but received ${value}.`;
       expect(
-        () => num.restrict(spy)(value, 'param'),
+        () => number.restrict(spy)(value, 'param'),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -261,7 +261,7 @@ describe('num', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => num.restrict(rule)(invalidValue),
+        () => number.restrict(rule)(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();
@@ -279,7 +279,7 @@ describe('num', () => {
       [Math.PI, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(num.optional.restrict(spy)(value)).toBe(value);
+      expect(number.optional.restrict(spy)(value)).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -298,7 +298,7 @@ describe('num', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => num.optional.restrict(spy)(value),
+        () => number.optional.restrict(spy)(value),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -310,7 +310,7 @@ describe('num', () => {
       [undefined],
     ])('bypasses %s and doesn\'t call rule', value => {
       const rule = jest.fn();
-      expect(num.optional.restrict(rule)(value)).toBe(value);
+      expect(number.optional.restrict(rule)(value)).toBe(value);
       expect(rule).not.toBeCalled();
     });
   });
@@ -328,7 +328,7 @@ describe('num', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => num.optional.restrict(rule)(invalidValue),
+        () => number.optional.restrict(rule)(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();
@@ -346,7 +346,7 @@ describe('num', () => {
       [Math.PI, gt(0)],
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
-      expect(num.restrict(spy).optional(value)).toBe(value);
+      expect(number.restrict(spy).optional(value)).toBe(value);
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
     });
@@ -364,7 +364,7 @@ describe('num', () => {
       const spy = jest.fn(rule);
       const errorMessage = `expected value is ${message} but received ${value}.`;
       expect(
-        () => num.restrict(spy).optional(value),
+        () => number.restrict(spy).optional(value),
       ).toThrow(new TypeError(errorMessage));
       expect(spy).toBeCalledTimes(1);
       expect(spy).toBeCalledWith(value);
@@ -376,7 +376,7 @@ describe('num', () => {
       [undefined],
     ])('bypasses %s and doesn\'t call rule', value => {
       const rule = jest.fn();
-      expect(num.restrict(rule).optional(value)).toBe(value);
+      expect(number.restrict(rule).optional(value)).toBe(value);
       expect(rule).not.toBeCalled();
     });
   });
@@ -394,7 +394,7 @@ describe('num', () => {
     ])('throws a TypeError for "%s" and doesn\'t call rule', invalidValue => {
       const rule = jest.fn().mockReturnValue(null); // rule returns null on success
       expect(
-        () => num.restrict(rule).optional(invalidValue),
+        () => number.restrict(rule).optional(invalidValue),
       ).toThrow(new TypeError(`number is expected but "${invalidValue}" received.`));
 
       expect(rule).not.toBeCalled();

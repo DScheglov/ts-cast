@@ -1,5 +1,5 @@
 import {
-  record, int, str, num, values,
+  record, integer, string, number, values,
 } from '../..';
 
 describe('record', () => {
@@ -11,36 +11,36 @@ describe('record', () => {
 
   describe('Caster interface', () => {
     it('record(str, int).name === "Record<string, integer>"', () => {
-      expect(record(str, int).name).toBe('Record<string, integer>');
+      expect(record(string, integer).name).toBe('Record<string, integer>');
     });
 
     it('record(str, int, "StrIntMap").name === "StrIntMap"', () => {
-      expect(record(str, int, 'StrIntMap').name).toBe('StrIntMap');
+      expect(record(string, integer, 'StrIntMap').name).toBe('StrIntMap');
     });
 
     it('record(str, int).optional is a Function', () => {
-      expect(record(str, int).optional).toBeInstanceOf(Function);
+      expect(record(string, integer).optional).toBeInstanceOf(Function);
     });
 
     it('record(str, int).nullable is a Function', () => {
-      expect(record(str, int).nullable).toBeInstanceOf(Function);
+      expect(record(string, integer).nullable).toBeInstanceOf(Function);
     });
 
     it('record(str, int).restrict is a Function', () => {
-      expect(record(str, int).restrict).toBeInstanceOf(Function);
+      expect(record(string, integer).restrict).toBeInstanceOf(Function);
     });
 
     it('record(str, int).map is a Function', () => {
-      expect(record(str, int).map).toBeInstanceOf(Function);
+      expect(record(string, integer).map).toBeInstanceOf(Function);
     });
 
     it('record(str, int).default is a Function', () => {
-      expect(record(str, int).default).toBeInstanceOf(Function);
+      expect(record(string, integer).default).toBeInstanceOf(Function);
     });
   });
 
   describe('record(str.map(toCamelCase), int)', () => {
-    const jsRecord = record(str.map(toCamelCase), int);
+    const jsRecord = record(string.map(toCamelCase), integer);
 
     it.each([
       [{ contact_id: 1, room_id: 2 }, { contactId: 1, roomId: 2 }],
@@ -51,7 +51,7 @@ describe('record', () => {
   });
 
   describe('record(str, int)', () => {
-    const StrIntMap = record(str, int);
+    const StrIntMap = record(string, integer);
 
     it('record(str, int).name = "Record<string, integer>"', () => {
       expect(StrIntMap.name).toBe('Record<string, integer>');
@@ -83,7 +83,7 @@ describe('record', () => {
   });
 
   describe('record(values("x", "y"), num)', () => {
-    const VectorPartial = record(values('x', 'y'), num);
+    const VectorPartial = record(values('x', 'y'), number);
 
     it('record(values("x", "y"), num).name = Record<"x" | "y", number>', () => {
       expect(VectorPartial.name).toBe('Record<"x"|"y", number>');

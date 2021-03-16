@@ -1,6 +1,7 @@
 import {
-  Predicate, withName, predicateName, joinNames,
+  Predicate, predicateName,
 } from './predicate';
+import { withName, joinNames } from '../helpers/names';
 
 export const not = <T>(predicate: Predicate<T>) => withName(
   (value: T) => !predicate(value),

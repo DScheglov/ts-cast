@@ -49,7 +49,7 @@ export const textList = <T>(
 };
 
 export const text = {
-  int: textInt,
-  num: textNum,
+  integer: textInt,
+  number: textNum,
   list: textList,
 };

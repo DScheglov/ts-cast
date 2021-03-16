@@ -1,12 +1,12 @@
 export * from './engine';
 export * from './restrictions';
 
-export { int } from './types/int';
-export { str } from './types/str';
-export { num } from './types/num';
-export { bool } from './types/bool';
+export { integer } from './types/integer';
+export { string } from './types/string';
+export { number } from './types/number';
+export { boolean } from './types/boolean';
 export { nil } from './types/nil';
-export { indif } from './types/indif';
+export { any } from './types/any';
 export { undef } from './types/undef';
 export { ref } from './types/ref';
 export { value } from './types/value';
