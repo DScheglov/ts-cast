@@ -1,21 +1,22 @@
 import v from 'validator';
 import { 
-  int, num, str, struct, tuple, array, union, nil, ref, createCaster, Caster 
+  integer, number, string, struct, tuple, array, union, nil, ref, createCaster, Caster 
 } from '../../../src';
 import { toBe } from '../../../src/restrictions';
 
-interface TEmail extends String {};
-interface TUUID extends String {};
+class TEmail extends String { private tag: Symbol
+};
+class TUUID extends String { private tag: Symbol };
 
 const isEmail = (value: any): value is TEmail => v.isEmail(value);
 const isUUID = (value: any): value is TUUID => v.isUUID(value);
 
-const Email = createCaster('email', isEmail).map(email => email.toLowerCase() as TEmail);
-const UUID = createCaster('uuid', isUUID).map(id => id.toUpperCase() as TUUID);
+export const Email = createCaster('email', isEmail, (email): TEmail => email.toLowerCase());
+export const UUID = createCaster('uuid', isUUID);
 
 const isNonEmptyStr = (v: string): boolean => v !== '';
 
-const nonEmptyStr = str.restrict(toBe(isNonEmptyStr));
+const nonEmptyStr = string.restrict(toBe(isNonEmptyStr));
 
 export type TPerson = {
   id: TUUID;
@@ -31,12 +32,12 @@ export const Person: Caster<TPerson> = struct({
   friends: array(ref(() => Person, 'Person')).optional,
 }, 'Person');
 
-export const Coords = tuple(num, num.optional);
+export const Coords = tuple(number, number.optional);
 
 export const Book = struct({
-  title: str.default(''),
-  annotation: str.optional,
-  year: int.restrict(toBe(x => x > 2000, "greater then 2000")),
+  title: string.default(''),
+  annotation: string.optional,
+  year: integer.restrict(toBe(x => x > 2000, "greater then 2000")),
   authors: array(Person),
   coords: union(Coords, nil), // .default(null),
 }, 'Book');

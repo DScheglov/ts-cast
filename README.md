@@ -1,7 +1,7 @@
 # ts-cast
 [![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/ts-cast?branch=master)
 
-Runtime type checking for Typescript projects
+Runtime type checking for Typescript and JavaScript projects
 
 ## Installation
 
@@ -13,28 +13,30 @@ npm i ts-cast
 
 The package **ts-cast** is a type checking utility for contract programming.
 
-It allows to describe data schema of the incoming resources (requests to the application or responses from other applications) and then validate correspondent resources with the schema.
+It allows to describe data schema of the incoming resources (requests to the
+application or responses from other applications) and then validate correspondent
+resources with the schema.
 
 Let's start with an example:
 
 **./src/schema.ts**
 
 ```typescript
-import { int, num, str, struct, tuple, array } from 'ts-cast';
+import { integer, number, string, struct, tuple, array } from 'ts-cast';
 import { toBe } from 'ts-cast/validation';
-import { isEmail } from 'validator';
+import v from 'validator';
 
 export const Person = struct({
-  name: str,
-  email: str.restrict(toBe(isEmail, "a valid email")),
+  name: string,
+  email: string.restrict(toBe(v.isEmail, "a valid email")),
 });
 
-export const Coords = tuple(num, num);
+export const Coords = tuple(number, number);
 
 export const Book = struct({
-  title: str,
-  annotation: str.optional,
-  year: int,
+  title: string,
+  annotation: string.optional,
+  year: integer,
   authors: array(Person),
   coords: Coords.optional,
 });
@@ -43,6 +45,22 @@ export type TPerson = ReturnType<typeof Person>;
 export type TCoords = ReturnType<typeof Coords>;
 export type TBook = ReturnType<typeof Book>;
 ```
+
+So let's see how `TPerson`, `TCoords` and `TBook` look like:
+
+**TPerson**:
+
+![TPerson](./.assets/tperson.png)
+
+**TCoords**:
+
+![TCoords](./.assets/tcoords.png)
+
+**TBook**:
+
+![TBook](./.assets/tbook.png)
+
+Then we can use defined types and their `caster`-s in this way:
 
 **./src/index.ts**
 
@@ -69,5 +87,5 @@ const myBook = Book({
 
 const book: TBook = myBook;
 
-console.log(JSON.stringify(book, null, 2));
+console.dir(book, { depth: null });
 ```

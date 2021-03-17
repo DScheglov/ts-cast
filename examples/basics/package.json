@@ -1,0 +1,80 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "ts-node ./src"
+  },
+  "dependencies": {
+    "ts-cast": "file:../../",
+    "validator": "^13.5.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.9.1",
+    "@types/node": "^14.0.13",
+    "@types/validator": "^13.1.2",
+    "@typescript-eslint/eslint-plugin": "^2.34.0",
+    "@typescript-eslint/parser": "^2.34.0",
+    "eslint": "^6.7.2",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-jest": "^23.13.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^3.7.5"
+  },
+  "eslintConfig": {
+    "extends": [
+      "airbnb/base"
+    ],
+    "plugins": [
+      "@typescript-eslint",
+      "jest"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "rules": {
+      "max-len": [
+        "error",
+        {
+          "code": 100,
+          "ignoreStrings": true
+        }
+      ],
+      "no-param-reassign": "off",
+      "implicit-arrow-linebreak": "off",
+      "import/no-unresolved": 0,
+      "import/prefer-default-export": 0,
+      "indent": [
+        2,
+        2,
+        {
+          "flatTernaryExpressions": true
+        }
+      ],
+      "no-unused-vars": "off",
+      "no-undef": "error",
+      "no-tabs": "error",
+      "no-nested-ternary": 0,
+      "import/extensions": 0,
+      "arrow-parens": [
+        "error",
+        "as-needed"
+      ],
+      "operator-linebreak": 0,
+      "no-underscore-dangle": 0,
+      "@typescript-eslint/no-unused-vars": [
+        "error"
+      ],
+      "jest/no-disabled-tests": "warn",
+      "jest/no-focused-tests": "error",
+      "jest/no-identical-title": "error",
+      "jest/prefer-to-have-length": "warn",
+      "jest/valid-expect": "error"
+    },
+    "env": {
+      "jest/globals": true
+    },
+    "ignorePatterns": [
+      "examples/**/*",
+      "lib/**/*",
+      "esm/**/*"
+    ]
+  }
+}
