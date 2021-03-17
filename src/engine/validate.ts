@@ -1,14 +1,20 @@
+import { withName } from '../helpers/names';
 import { CasterFn } from './types';
 
-export type TypeCheckingResult<T> = {
+export type ErrorMessage = {
+  context: string | undefined,
+  message: string,
+};
+
+export type ValidationResult<T> = {
   result?: T;
-  errors: Array<{ context: string | undefined, message: string }>;
+  errors: ErrorMessage[];
   ok: boolean;
 }
 
 export const validate = <T>(casterFn: CasterFn<T>) =>
-  (value: any, context?: string): TypeCheckingResult<T> => {
-    const errors: Array<{ context: string | undefined, message: string }> = [];
+  (value: any, context?: string): ValidationResult<T> => {
+    const errors: ErrorMessage[] = [];
     const reportError = (message: string, ctx?: string) => {
       errors.push({ message, context: ctx });
     };
@@ -19,3 +25,18 @@ export const validate = <T>(casterFn: CasterFn<T>) =>
       return { errors: [{ message: err.message, context }], ok: false };
     }
   };
+
+export const validation = <T, Valid, Invalid>(
+  casterFn: CasterFn<T>,
+  invalidFactory: (errors: ErrorMessage[]) => Invalid,
+  validFactory: (value: T) => Valid,
+) => {
+  const validator = validate(casterFn);
+  return withName(
+    (value: any, context?: string) => {
+      const { ok, errors, result } = validator(value, context);
+      return ok ? validFactory(result!) : invalidFactory(errors);
+    },
+    `validation<*, ${casterFn}>`,
+  );
+};

@@ -7,6 +7,8 @@ import required from './required';
 import map from './map';
 import defValue from './default';
 import { nullable } from './nullable';
+import either from './either';
+import { ErrorMessage, validation } from './validate';
 
 export {
   CasterFn, Caster, TypeGuard, RuleFn, TypeChecker,
@@ -15,25 +17,46 @@ export {
 export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
   Object.defineProperties(casterFn, {
     ...Object.getOwnPropertyDescriptors(casterFn),
+
     optional: {
       enumerable: true,
       get: () => casterApi(optional(casterFn)),
     },
+
     nullable: {
       enumerable: true,
       get: () => casterApi(nullable(casterFn)),
     },
+
     restrict: {
       enumerable: true,
       value: (...rules: RuleFn<T>[]) => casterApi(restrict(casterFn, rules)),
     },
+
     map: {
       enumerable: true,
       value: <D>(transform: (value: T) => D) => casterApi(map(casterFn, transform)),
     },
+
     default: {
       enumerable: true,
       value: <D extends T>(def: D) => casterApi(defValue(casterFn, def)),
+    },
+
+    either: {
+      enumerable: true,
+      value: <Right, Left>(
+        leftFactory: (error: TypeError) => Left,
+        rightFactory:(value: T) => Right,
+      ) => either(casterFn, leftFactory, rightFactory),
+    },
+
+    validation: {
+      enumerable: true,
+      value: <Valid, Invalid>(
+        invalidFactory: (errors: ErrorMessage[]) => Invalid,
+        validFactory: (value: T) => Valid,
+      ) => validation(casterFn, invalidFactory, validFactory),
     },
   });
 

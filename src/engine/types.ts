@@ -1,3 +1,5 @@
+import { ErrorMessage } from './validate';
+
 export type RuleFn<T> = (value: T) => string | null;
 
 export type TypeGuard<T> = (value: any) => value is T;
@@ -19,6 +21,14 @@ export interface Caster<T> extends CasterFn<T> {
     transform: (value: Exclude<T, null | undefined>
   ) => D): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
   default(defaltValue: T): Caster<Exclude<T, undefined>>;
+  either<Right, Left>(
+    leftFactory: (error: TypeError) => Left,
+    rightFactory:(value: T) => Right,
+  ): CasterFn<Left | Right>
+  validation<Valid, Invalid>(
+    invalidFactory: (errors: ErrorMessage[]) => Invalid,
+    validFactory: (value: T) => Valid
+  ): CasterFn<Valid | Invalid>
 }
 
 export interface StructCaster<S extends {}> extends Caster<S> {
