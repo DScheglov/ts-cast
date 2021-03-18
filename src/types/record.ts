@@ -8,8 +8,8 @@ const recordTypeName = (keyTypeName: string, valueTypeName: string) =>
 const checkFields = <K extends string, T>(
   keyCaster: CasterFn<K>,
   valueCaster: CasterFn<T>,
-) => <O extends {}>(value: O, context?: string, reportError?: ErrorReporter) =>
-    Object.entries(value).reduce(
+) => (value: unknown, context?: string, reportError?: ErrorReporter) =>
+    Object.entries((value as {})).reduce(
       (obj, [key, val]) => {
         const newKey = keyCaster(key, context ? `key of ${context}` : 'key', reportError);
         const newValue = valueCaster(

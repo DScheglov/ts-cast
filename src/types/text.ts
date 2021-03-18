@@ -4,9 +4,9 @@ import { ErrorReporter } from '../engine/types';
 
 export const textInt = createCaster(
   'text.integer',
-  (value: any): value is number => typeof value === 'string' && value !== '',
-  (value: any, context?: string, reportError?: ErrorReporter) => {
-    const parsed = +value;
+  (value: unknown): value is number => typeof value === 'string' && value !== '',
+  (value: unknown, context?: string, reportError?: ErrorReporter) => {
+    const parsed = +(value as string);
 
     if (Number.isInteger(parsed)) return parsed;
 
@@ -19,9 +19,9 @@ export const textInt = createCaster(
 
 export const textNum = createCaster(
   'text.number',
-  (value: any): value is number => typeof value === 'string' && value !== '',
-  (value: any, context?: string, reportError?: ErrorReporter) => {
-    const parsed = +value;
+  (value: unknown): value is number => typeof value === 'string' && value !== '',
+  (value: unknown, context?: string, reportError?: ErrorReporter) => {
+    const parsed = +(value as string);
 
     if (!Number.isNaN(parsed)) return parsed;
 
@@ -39,9 +39,9 @@ export const textList = <T>(
   const castArray = array(itemCaster);
   return createCaster(
     `list(${itemCaster.name})`,
-    (value: any): value is T[] => typeof value === 'string',
-    (value: any, context?: string, reportError?: ErrorReporter) => castArray(
-      value === '' ? [] : value.split(separator),
+    (value: unknown): value is T[] => typeof value === 'string',
+    (value: unknown, context?: string, reportError?: ErrorReporter) => castArray(
+      value === '' ? [] : (value as string).split(separator),
       context,
       reportError,
     ),

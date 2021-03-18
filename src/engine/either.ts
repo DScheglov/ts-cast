@@ -7,7 +7,7 @@ const either = <T, Left, Right>(
   leftFactory: (error: TypeError) => Left,
   rightFactory:(value: T) => Right,
 ): CasterFn<Left | Right> => withName(
-    (value: any, context?: string) => {
+    (value: unknown, context?: string) => {
       try {
         const casted = caster(value, context, throwTypeError);
         return rightFactory(casted);

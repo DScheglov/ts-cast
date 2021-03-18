@@ -10,7 +10,7 @@ type CasterRef<S> = { caster: CasterFn<S> };
 const transformStruct = <S extends {}>(schema: StructSchema<S>, ref: CasterRef<S>) => {
   const fields = Object.entries(schema) as Array<[keyof S, Caster<any>]>;
   return (
-    value: any,
+    value: unknown,
     context?: string,
     reportError?: ErrorReporter,
   ): OptionalUndefined<S> =>
@@ -19,7 +19,11 @@ const transformStruct = <S extends {}>(schema: StructSchema<S>, ref: CasterRef<S
         enumerable: true,
         writable: true,
         configurable: true,
-        value: caster(value[field], context ? `${context}.${field}` : `${field}`, reportError),
+        value: caster(
+          (value as any)[field],
+          context ? `${context}.${field}` : `${field}`,
+          reportError,
+        ),
       }),
       Object.create(ref.caster.prototype) as S,
     );

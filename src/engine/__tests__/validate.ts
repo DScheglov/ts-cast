@@ -151,7 +151,7 @@ describe('validate', () => {
 
   describe('specific', () => {
     it('returns an error if some caster throws error explicitly', () => {
-      const INT = (value: any, context?: string) =>
+      const INT = (value: unknown, context?: string) =>
         (Number.isInteger(value)
           ? value
           : throwTypeError(`integer is expected in ${context} but "${value}" received.`));

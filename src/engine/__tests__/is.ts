@@ -12,27 +12,27 @@ describe('is', () => {
   const isPerson = is(Person);
 
   it('creates a type quard for number', () => {
-    const guard: (value: any) => value is number = isNumber;
+    const guard: (value: unknown) => value is number = isNumber;
     expect(guard).toBeInstanceOf(Function);
   });
 
   it('creates a type quard for string', () => {
-    const guard: (value: any) => value is string = isString;
+    const guard: (value: unknown) => value is string = isString;
     expect(guard).toBeInstanceOf(Function);
   });
 
   it('creates a type guard for boolean', () => {
-    const guard: (value: any) => value is boolean = isBoolean;
+    const guard: (value: unknown) => value is boolean = isBoolean;
     expect(guard).toBeInstanceOf(Function);
   });
 
   it('creates a type guard for integer', () => {
-    const guard: (value: any) => value is number = isInteger;
+    const guard: (value: unknown) => value is number = isInteger;
     expect(guard).toBeInstanceOf(Function);
   });
 
   it('creates a type guard for struct', () => {
-    const guard: (value: any) => value is ReturnType<typeof Person> = isPerson;
+    const guard: (value: unknown) => value is ReturnType<typeof Person> = isPerson;
     expect(guard).toBeInstanceOf(Function);
   });
 

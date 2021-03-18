@@ -1,10 +1,8 @@
 import { RuleFn } from '../rules/types';
 
-export { RuleFn };
+export type TypeGuard<T> = (value: unknown) => value is T;
 
-export type TypeGuard<T> = (value: any) => value is T;
-
-export type TypeChecker = (value: any) => boolean;
+export type TypeChecker = (value: unknown) => boolean;
 
 export type ErrorReporter = (message: string, context?: string) => never;
 
@@ -20,7 +18,7 @@ export type ValidationResult<T> = {
 }
 
 export interface CasterFn<T> {
-  (value: any, context?: string, reportError?: ErrorReporter): T;
+  (value: unknown, context?: string, reportError?: ErrorReporter): T;
   name: string;
 }
 
@@ -46,7 +44,7 @@ export interface Caster<T> extends CasterFn<T> {
     validFactory: (value: T) => Valid
   ): CasterFn<Valid | Invalid>;
 
-  validate(value: any): ValidationResult<T>;
+  validate(value: unknown): ValidationResult<T>;
 }
 
 export interface StructCaster<S extends {}> extends Caster<S> {

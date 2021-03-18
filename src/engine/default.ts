@@ -3,7 +3,7 @@ import { CasterFn, ErrorReporter } from './types';
 
 const defValue = <T>(casterFn: CasterFn<T>, defaultValue: T): CasterFn<Exclude<T, undefined>> => {
   const defaultCaster = (
-    value: any,
+    value: unknown,
     context?: string,
     reportError: ErrorReporter = throwTypeError,
   ) => (

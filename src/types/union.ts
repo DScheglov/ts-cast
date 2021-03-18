@@ -2,7 +2,7 @@ import { createCaster } from '../engine';
 import { Caster, CasterFn, ErrorReporter } from '../engine/types';
 
 const checkTypes = (casters: CasterFn<any>[], typeName: string) => {
-  const unionCasterFn = (value: any, context?: string, reportError?: ErrorReporter) => {
+  const unionCasterFn = (value: unknown, context?: string, reportError?: ErrorReporter) => {
     let match: any;
 
     const isMatched = casters.some(caster => {

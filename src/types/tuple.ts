@@ -5,16 +5,16 @@ import {
 } from '../engine/types';
 
 const transformTuple = <T extends Tuple>(schema: TupleSchema<T>) =>
-  (value: any, context?: string, reportError?: ErrorReporter) => {
+  (value: unknown, context?: string, reportError?: ErrorReporter) => {
     const casted = ((schema as any[]).map(
       (caster, index) => caster(
-        value[index],
+        (value as any[])[index],
         context ? `${context}[${index}]` : `#${index}`,
         reportError,
       ),
     ) as any) as T;
 
-    const last = value.length - 1;
+    const last = (value as any[]).length - 1;
 
     return (casted as Array<any> & T).slice(0, last + 1) as any as T;
   };

@@ -1,33 +1,27 @@
+import { withName } from '../helpers/names';
 import { throwTypeError } from './throw-type-error';
 import {
   CasterFn, ErrorReporter, TypeChecker, TypeGuard,
 } from './types';
 
-export const id = <T>(value: T): T => value;
-
 const required = <T>(
-  typeName: string, typeGuard: TypeGuard<T> | TypeChecker, transform: CasterFn<T> = id,
-): CasterFn<T> => {
-  const casterFn = (
-    value: any,
-    context?: string,
-    reportError: ErrorReporter = throwTypeError,
-  ): T => {
-    if (value !== undefined && typeGuard(value)) {
-      return transform(value, context, reportError);
-    }
+  typeName: string, typeGuard: TypeGuard<T> | TypeChecker, transform?: CasterFn<T>,
+): CasterFn<T> => withName(
+    (value: unknown, context?: string, reportError: ErrorReporter = throwTypeError): T => {
+      if (value === undefined || !typeGuard(value)) {
+        return reportError(
+          `${typeName} is expected${context ? ` in ${context}` : ''} but "${value}" received.`,
+          context,
+        ) as any;
+      }
 
-    return reportError(
-      `${typeName} is expected${
-        context ? ` in ${context}` : ''
-      } but "${value}" received.`,
-      context,
-    ) as any;
-  };
-
-  Reflect.defineProperty(casterFn, 'name', { value: typeName });
-
-  return casterFn;
-};
+      return (
+        typeof transform === 'function'
+          ? transform(value, context, reportError)
+          : value
+      );
+    },
+    typeName,
+  );
 
 export default required;

@@ -7,8 +7,8 @@ class TEmail extends String { private tag: Symbol
 };
 class TUUID extends String { private tag: Symbol };
 
-const isEmail = (value: any): value is TEmail => v.isEmail(value);
-const isUUID = (value: any): value is TUUID => v.isUUID(value);
+const isEmail = (value: unknown): value is TEmail => v.isEmail(value);
+const isUUID = (value: unknown): value is TUUID => v.isUUID(value);
 
 export const Email = createCaster('email', isEmail, (email): TEmail => email.toLowerCase());
 export const UUID = createCaster('uuid', isUUID);

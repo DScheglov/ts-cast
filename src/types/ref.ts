@@ -7,7 +7,7 @@ export const ref = <T>(
   typeName: string = '<type-reference>',
 ): Caster<T> => {
   let caster: CasterFn<T> = (
-    value: any,
+    value: unknown,
     context?: string,
     reportError?: ErrorReporter,
   ): T => {
@@ -16,7 +16,7 @@ export const ref = <T>(
   };
 
   const referredCaster = (
-    value: any,
+    value: unknown,
     context?: string,
     reportError: ErrorReporter = throwTypeError,
   ): T => caster(value, context, reportError);

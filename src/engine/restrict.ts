@@ -14,7 +14,7 @@ const applyRule = <T>(value: T, context?: string, reportError?: ErrorReporter) =
 
 export const restrict = <T>(caster: CasterFn<T>, rules: RuleFn<T>[]) => {
   const validator = (
-    value: any,
+    value: unknown,
     context?: string,
     reportError: ErrorReporter = throwTypeError,
   ): T => {

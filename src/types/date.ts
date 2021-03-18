@@ -21,20 +21,20 @@ const parseDate = (
 
 export const isoDate = createCaster(
   'ISODate',
-  (value: any) => typeof value === 'string' && value !== '',
+  (value: unknown) => typeof value === 'string' && value !== '',
   (value, context, reportError): Date => parseDate('ISODate', value, context, reportError),
 );
 
 export const unixDateTimeStamp = createCaster(
   'UnixDateTimeStamp',
-  (value: any) => typeof value === 'number',
+  value => typeof value === 'number',
   (value, context, reportError): Date => parseDate(
-    'UnixDateTimeStamp', value * 1000, context, reportError,
+    'UnixDateTimeStamp', (value as number) * 1000, context, reportError,
   ),
 );
 
 export const jsDateTimeStamp = createCaster(
   'JSDateTimeStamp',
-  (value: any) => typeof value === 'number',
+  value => typeof value === 'number',
   (value, context, reportError): Date => parseDate('JSDateTimeStamp', value, context, reportError),
 );

@@ -4,10 +4,10 @@ import {
 } from '../engine/types';
 
 const transformArray = <T>(caster: CasterFn<T>) => (
-  value: any[],
+  value: unknown,
   context?: string,
   reportError?: ErrorReporter,
-) => value.map((item, index) =>
+) => (value as any[]).map((item, index) =>
   caster(item, context ? `${context}[${index}]` : `#${index}`, reportError));
 
 export const array = <T>(caster: CasterFn<T>, typeName: string = `${caster.name}[]`): Caster<T[]> =>

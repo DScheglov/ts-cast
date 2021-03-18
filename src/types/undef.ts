@@ -3,7 +3,7 @@ import { throwTypeError } from '../engine/throw-type-error';
 import { ErrorReporter } from '../engine/types';
 
 const castUndefined = (
-  value: any,
+  value: unknown,
   context?: string,
   reportError: ErrorReporter = throwTypeError,
 ) => {

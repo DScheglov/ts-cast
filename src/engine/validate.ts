@@ -2,7 +2,7 @@ import { withName } from '../helpers/names';
 import { CasterFn, ValidationResult, ErrorMessage } from './types';
 
 export const validate = <T>(casterFn: CasterFn<T>) =>
-  (value: any, context?: string): ValidationResult<T> => {
+  (value: unknown, context?: string): ValidationResult<T> => {
     const errors: ErrorMessage[] = [];
     const reportError = (message: string, ctx?: string) => {
       errors.push({ message, context: ctx });
@@ -22,7 +22,7 @@ export const validation = <T, Valid, Invalid>(
 ) => {
   const validator = validate(casterFn);
   return withName(
-    (value: any, context?: string) => {
+    (value: unknown, context?: string) => {
       const { ok, errors, result } = validator(value, context);
       return ok ? validFactory(result!) : invalidFactory(errors);
     },

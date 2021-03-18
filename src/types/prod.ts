@@ -5,7 +5,7 @@ import { Caster, CasterFn, ErrorReporter } from '../engine/types';
 const prodTypeName = (schema: CasterFn<any>[]) => schema.map(caster => caster.name).join(' & ');
 
 const mergeStructs = (schema: CasterFn<{}>[]) =>
-  (value: any, context?: string, reportError?: ErrorReporter) =>
+  (value: unknown, context?: string, reportError?: ErrorReporter) =>
     schema.reduce(
       (obj, caster) => Object.assign(obj, caster(value, context, reportError)),
       Object.create(null),
