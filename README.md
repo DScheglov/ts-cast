@@ -1,6 +1,10 @@
 # ts-cast &middot; [![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master&service=github)](https://coveralls.io/github/DScheglov/ts-cast?branch=master&service=github) [![npm version](https://img.shields.io/npm/v/ts-cast.svg?style=flat-square)](https://www.npmjs.com/package/ts-cast) [![npm downloads](https://img.shields.io/npm/dm/ts-cast.svg?style=flat-square)](https://www.npmjs.com/package/ts-cast) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DScheglov/ts-cast/blob/master/LICENSE)
 
-Runtime type checking for Typescript and JavaScript projects
+Runtime type checking for Typescript and JavaScript projects. It allows to specify data structures
+of the "external" resources (requests to the application or responses from other applications).
+
+The idea is based on the **Caster** that is a function accepts value of `unknown` type
+and returns value of target type.
 
 ## Installation
 
@@ -10,11 +14,6 @@ npm i ts-cast
 
 ## Overview
 
-The package **ts-cast** is a type checking utility for contract programming.
-
-It allows to describe data schema of the incoming resources (requests to the
-application or responses from other applications) and then validate correspondent
-resources with the schema.
 
 Let's start with an example:
 
