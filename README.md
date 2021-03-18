@@ -4,7 +4,25 @@ Runtime type checking for Typescript and JavaScript projects. It allows to speci
 of the "external" resources (requests to the application or responses from other applications).
 
 The idea is based on the **Caster** that is a function accepts value of `unknown` type
-and returns value of target type.
+and returns value of target type or throws a `TypeError` if casting is impossible.
+
+Additionally `ts-cast` presents tools for:
+ - validation casted data
+ - transformation of casted data
+ - `Either` and `Validation` monads support
+
+Almost in all cases `ts-cast` allows to avoid specification of correspondent type in TypeScript,
+because the type could be get as `ReturnType` of the correspondent caster-function.
+
+```ts
+const Person = struct({ name: string, age: integer });
+
+type Person = ReturnType<typeof Person>;
+
+// the same as
+
+type Person = { name: string, age: number };
+```
 
 ## Installation
 
@@ -12,8 +30,7 @@ and returns value of target type.
 npm i ts-cast
 ```
 
-## Overview
-
+## Getting Started
 
 Let's start with an example:
 
@@ -86,3 +103,81 @@ const book: TBook = myBook;
 
 console.dir(book, { depth: null });
 ```
+
+## TypeScript Analogy
+
+### Primitive Types
+
+|  ts-cast  | TypeScript  |
+| :-------: | :---------: |
+| `number`  |  `number`   |
+| `integer` |  `number`   |
+| `string`  |  `string`   |
+| `boolean` |  `boolean`  |
+|   `nil`   |   `null`    |
+|  `undef`  | `undefined` |
+
+**Example**:
+
+```ts
+import { integer } from 'ts-cast';
+
+const x = integer(10); // works
+const y = integer(Math.PI);  // throws TypeError
+const z = integet('10'); // also throws TypeError
+```
+
+```ts
+import { string } from 'ts-cast';
+
+const a = string('Hello Wordl!'); // works
+const b = string(''); // also works
+const c = string(null); // throws TypeError
+const d = string(20); // throws TypeError again
+```
+
+### Literal Types
+
+|        ts-cast         |    TypeScript     | Comments                                                    |
+| :--------------------: | :---------------: | :---------------------------------------------------------- |
+|       `value(V)`       |   `V as const`    | `V extends number \| string \| boolean \| symbol`           |
+| `values(A, B, C, ...)` | `A \| B \| C ...` | `A, B, C ... extends number \| string \| boolean \| symbol` |
+
+
+```ts
+import { values } from 'ts-cast';
+
+const TrafficLight = values('red', 'yellow', 'green');
+
+const green = TrafficLight('green'); // works
+
+type TypeOfGreen = typeof green; // 'red' | 'yellow' | 'green'
+
+const wrong = TrafficLight('blue'); // throws TypeError
+```
+
+### Complex Types
+
+|                 ts-cast                  |   TypeScript    |
+| :--------------------------------------: | :-------------: |
+|   `tuple(caster<T1>, caster<T2>, ...)`   | `[T1, T2, ...]` |
+|            `array(caster<T>)`            |      `T[]`      |
+| `struct({ a: caster<A>, b: caster<B> })` | { a: A, b: B }  |
+|      `record(caster<K>, caster<V>)`      | `Record<K, V>`  |
+
+
+### Type Modifiers
+
+|          ts-cast          |    TypeScript    |
+| :-----------------------: | :--------------: |
+|   `caster<T>.optional`    | `T \| undefined` |
+|  `caster<T>.default(v)`   |    `x: T = v`    |
+|   `caster<T>.nullable`    |   `T \| null`    |
+| `caster<T>.restrict(...)` |       `T`        |
+
+### Operations over Types
+
+|               ts-cast                |    TypeScript     |
+| :----------------------------------: | :---------------: |
+| `union(caster<T1>, caster<T2>, ...)` | `T1 \| T2 \| ...` |
+| `prod(caster<T1>, caster<T2>, ...)`  |  `T1 & T2 & ...`  |
