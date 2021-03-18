@@ -8,7 +8,7 @@ export const isInt = (value: unknown): value is number =>
 export const isStr = (value: unknown): value is string => typeof value === 'string';
 
 export const isAnObj = <T extends {}>(value: unknown): value is T =>
-  typeof value === 'object' && !Array.isArray(value);
+  typeof value === 'object' && value !== null && !Array.isArray(value);
 
 export const isATuple = <T extends any[]>(value: unknown): value is T =>
   Array.isArray(value);
