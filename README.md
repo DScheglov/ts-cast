@@ -21,8 +21,7 @@ Let's start with an example:
 **./src/schema.ts**
 
 ```typescript
-import { integer, number, string, struct, tuple, array } from 'ts-cast';
-import { toBe } from 'ts-cast/rules';
+import { integer, number, string, struct, tuple, array, toBe } from 'ts-cast';
 import v from 'validator';
 
 export const Person = struct({

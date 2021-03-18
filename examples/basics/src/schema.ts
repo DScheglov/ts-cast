@@ -1,4 +1,4 @@
-import { integer, number, string, struct, tuple, array, toBe } from '../../../src';
+import { integer, number, string, struct, tuple, array, toBe } from 'ts-cast';
 import v from 'validator';
 
 export const Person = struct({

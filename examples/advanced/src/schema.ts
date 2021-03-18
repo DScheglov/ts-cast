@@ -1,7 +1,7 @@
 import v from 'validator';
 import { 
   integer, number, string, struct, tuple, array, union, nil, ref, createCaster, Caster, toBe 
-} from '../../../src';
+} from 'ts-cast';
 
 class TEmail extends String { private tag: Symbol
 };
