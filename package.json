@@ -112,5 +112,18 @@
       "/examples/",
       "/node_modules/"
     ]
-  }
+  },
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DScheglov/ts-cast.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DScheglov/ts-cast/issues"
+  },
+  "homepage": "https://github.com/DScheglov/ts-cast#readme"
 }
