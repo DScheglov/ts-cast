@@ -14,7 +14,7 @@ import { memo } from '../helpers/memo0';
 export { is } from './is';
 
 export {
-  CasterFn, Caster, TypeGuard, RuleFn, TypeChecker,
+  CasterFn, Caster, TypeGuard, TypeChecker,
 };
 
 export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>

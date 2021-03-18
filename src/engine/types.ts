@@ -1,5 +1,7 @@
 import { RuleFn } from '../rules/types';
 
+export { RuleFn };
+
 export type TypeGuard<T> = (value: unknown) => value is T;
 
 export type TypeChecker = (value: unknown) => boolean;
