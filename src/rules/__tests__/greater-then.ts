@@ -19,8 +19,14 @@ describe('greaterThen', () => {
     [0, 100],
     [0, Math.PI],
     [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+  ])('gt(%s) return true for %s (number)', (limit, value) => {
+    expect(gt(limit)(value)).toBe(true);
+  });
+
+  it.each([
     ['A', 'B'],
-  ])('gt(%s) return true for %s', (limit, value) => {
+    ['America', 'Hello'],
+  ])('gt(%s) return true for %s (string)', (limit, value) => {
     expect(gt(limit)(value)).toBe(true);
   });
 
@@ -31,9 +37,14 @@ describe('greaterThen', () => {
     [Math.PI, 0],
     [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
     [Number.POSITIVE_INFINITY, Number.POSITIVE_INFINITY],
+  ])('gt(%s) return false for %s (number)', (limit, value) => {
+    expect(gt(limit)(value)).toBe(false);
+  });
+
+  it.each([
     ['B', 'A'],
     ['B', 'B'],
-  ])('gt(%s) return false for %s', (limit, value) => {
+  ])('gt(%s) return false for %s (string)', (limit, value) => {
     expect(gt(limit)(value)).toBe(false);
   });
 });
@@ -56,9 +67,14 @@ describe('notLessThen', () => {
     [0, 100],
     [0, Math.PI],
     [Number.NEGATIVE_INFINITY, Number.POSITIVE_INFINITY],
+  ])('gt(%s) return true for %s (numbeR)', (limit, value) => {
+    expect(gte(limit)(value)).toBe(true);
+  });
+
+  it.each([
     ['A', 'B'],
     ['A', 'A'],
-  ])('gt(%s) return true for %s', (limit, value) => {
+  ])('gt(%s) return true for %s (string)', (limit, value) => {
     expect(gte(limit)(value)).toBe(true);
   });
 
@@ -67,8 +83,14 @@ describe('notLessThen', () => {
     [100, 0],
     [Math.PI, 0],
     [Number.POSITIVE_INFINITY, Number.NEGATIVE_INFINITY],
+  ])('gt(%s) return false for %s (number)', (limit, value) => {
+    expect(gte(limit)(value)).toBe(false);
+  });
+
+  it.each([
     ['B', 'A'],
-  ])('gt(%s) return false for %s', (limit, value) => {
+    ['Hello', 'America'],
+  ])('gt(%s) return false for %s (string)', (limit, value) => {
     expect(gte(limit)(value)).toBe(false);
   });
 });
