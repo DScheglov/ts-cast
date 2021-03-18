@@ -37,7 +37,7 @@ jobs:
           flag-name: node-${{ matrix.node }}
           parallel: true
 
-  finish:
+  report-coverage:
     needs: test
     runs-on: ubuntu-latest
     steps:
@@ -46,3 +46,10 @@ jobs:
       with:
         github-token: ${{ secrets.github_token }}
         parallel-finished: true
+  
+  publish:
+    needs: report-coverage
+    runs-on: ubuntu-latest
+    steps:
+      - name: Show ref
+        run: echo {{ github.ref }}
