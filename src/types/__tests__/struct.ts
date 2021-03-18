@@ -35,10 +35,11 @@ describe('struct', () => {
       expect(Person(person)).not.toBe(person);
     });
 
-    it('returns object with null prototype', () => {
+    it('returns object with correspondent prototype', () => {
       const Person = struct({ name: string, email: string });
       const person = Person({ name: 'John', email: 'join@mail.com' });
-      expect(Object.getPrototypeOf(person)).toBeNull();
+      expect(Object.getPrototypeOf(person)).toBe(Person.prototype);
+      expect(person).toBeInstanceOf(Person);
     });
   });
 
@@ -179,6 +180,13 @@ describe('struct', () => {
       expect(
         () => Person.partial(value),
       ).toThrow(TypeError);
+    });
+
+    it('allows to change fields in the casted object', () => {
+      const person = Person({ name: 'John', email: '1@com.ua' });
+      person.name = 'George';
+
+      expect(person.name).toBe('George');
     });
   });
 });
