@@ -1,5 +1,5 @@
 # ts-cast
-[![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master)](https://coveralls.io/github/DScheglov/ts-cast?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master&service=github)](https://coveralls.io/github/DScheglov/ts-cast?branch=master&service=github)
 
 Runtime type checking for Typescript and JavaScript projects
 
