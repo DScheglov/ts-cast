@@ -52,4 +52,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show ref
-        run: echo {{ github.ref }}
+        run: echo ${{ github.ref }}
