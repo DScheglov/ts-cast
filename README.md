@@ -1,5 +1,4 @@
-# ts-cast
-[![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master&service=github)](https://coveralls.io/github/DScheglov/ts-cast?branch=master&service=github)
+# ts-cast &middot; [![Coverage Status](https://coveralls.io/repos/github/DScheglov/ts-cast/badge.svg?branch=master&service=github)](https://coveralls.io/github/DScheglov/ts-cast?branch=master&service=github) [![npm version](https://img.shields.io/npm/v/ts-cast.svg?style=flat-square)](https://www.npmjs.com/package/ts-cast) [![npm downloads](https://img.shields.io/npm/dm/ts-cast.svg?style=flat-square)](https://www.npmjs.com/package/ts-cast) [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/DScheglov/ts-cast/blob/master/LICENSE)
 
 Runtime type checking for Typescript and JavaScript projects
 
