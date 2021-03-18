@@ -12,6 +12,9 @@ describe('bool', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('bool.%s is a Function', methodName => {
       expect((boolean as any)[methodName]).toBeInstanceOf(Function);
     });

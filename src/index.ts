@@ -1,5 +1,5 @@
 export * from './engine';
-export * from './restrictions';
+export * from './rules';
 
 export { integer } from './types/integer';
 export { string } from './types/string';

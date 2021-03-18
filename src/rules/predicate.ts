@@ -1,6 +1,3 @@
-export type Predicate<T> = {
-  (value: T): boolean;
-  displayName?: string;
-};
+import { Predicate } from './types';
 
 export const predicateName = ({ displayName, name }: Predicate<any>) => displayName ?? name;

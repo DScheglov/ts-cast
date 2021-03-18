@@ -19,6 +19,9 @@ describe('struct', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
       ['partial'],
     ])('struct({ x: int, y: int }).%s is a Function', methodName => {
       expect((struct({ x: integer, y: integer }) as any)[methodName]).toBeInstanceOf(Function);

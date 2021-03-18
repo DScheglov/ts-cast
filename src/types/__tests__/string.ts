@@ -1,5 +1,5 @@
 import { string } from '../string';
-import { toBe } from '../../restrictions';
+import { toBe } from '../../rules';
 
 describe('str', () => {
   describe('Caster interface', () => {

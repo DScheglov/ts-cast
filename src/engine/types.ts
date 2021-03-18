@@ -1,12 +1,23 @@
-import { ErrorMessage } from './validate';
+import { RuleFn } from '../rules/types';
 
-export type RuleFn<T> = (value: T) => string | null;
+export { RuleFn };
 
 export type TypeGuard<T> = (value: any) => value is T;
 
 export type TypeChecker = (value: any) => boolean;
 
 export type ErrorReporter = (message: string, context?: string) => never;
+
+export type ErrorMessage = {
+  context: string | undefined,
+  message: string,
+};
+
+export type ValidationResult<T> = {
+  result?: T;
+  errors: ErrorMessage[];
+  ok: boolean;
+}
 
 export interface CasterFn<T> {
   (value: any, context?: string, reportError?: ErrorReporter): T;
@@ -16,19 +27,26 @@ export interface CasterFn<T> {
 export interface Caster<T> extends CasterFn<T> {
   optional: Caster<T | undefined>;
   nullable: Caster<T | null>;
+
   restrict(...rules: RuleFn<Exclude<T, null | undefined>>[]): Caster<T>;
+
   map<D>(
     transform: (value: Exclude<T, null | undefined>
   ) => D): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
+
   default(defaltValue: T): Caster<Exclude<T, undefined>>;
+
   either<Right, Left>(
     leftFactory: (error: TypeError) => Left,
     rightFactory:(value: T) => Right,
-  ): CasterFn<Left | Right>
+  ): CasterFn<Left | Right>;
+
   validation<Valid, Invalid>(
     invalidFactory: (errors: ErrorMessage[]) => Invalid,
     validFactory: (value: T) => Valid
-  ): CasterFn<Valid | Invalid>
+  ): CasterFn<Valid | Invalid>;
+
+  validate(value: any): ValidationResult<T>;
 }
 
 export interface StructCaster<S extends {}> extends Caster<S> {

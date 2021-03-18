@@ -1,4 +1,4 @@
-export { Predicate } from './predicate';
+export * from './types';
 export * from './rules';
 export * from './less-then';
 export * from './greater-then';

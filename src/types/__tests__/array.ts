@@ -31,6 +31,9 @@ describe('array', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('array(int).%s is a Function', methodName => {
       expect((array(integer) as any)[methodName]).toBeInstanceOf(Function);
     });

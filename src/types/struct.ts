@@ -33,11 +33,11 @@ const partial = <S extends {}>(schema: StructSchema<S>) =>
 export const struct = <S extends {}>(
   schema: StructSchema<S>,
   typeName: string = 'struct',
-): StructCaster<S> =>
-    Object.defineProperties(
-      createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema)), {
-        partial: {
-          get: () => struct(partial(schema), `Partial<${typeName}>`),
-        },
+): StructCaster<S> => Object.defineProperties(
+    createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema)), {
+      partial: {
+        enumerable: true,
+        get: () => struct(partial(schema), `Partial<${typeName}>`),
       },
-    );
+    },
+  );

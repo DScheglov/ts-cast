@@ -25,6 +25,9 @@ describe('tuple', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('array(int).%s is a Function', methodName => {
       expect((coordVal as any)[methodName]).toBeInstanceOf(Function);
     });

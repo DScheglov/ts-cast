@@ -1,5 +1,5 @@
 import { number } from '../..';
-import { toBe } from '../../restrictions';
+import { toBe } from '../../rules';
 
 const lt = (max: number) =>
   toBe((value: number) => value < max, `less then ${max}`);

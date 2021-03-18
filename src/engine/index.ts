@@ -1,6 +1,6 @@
 import { restrict } from './restrict';
 import {
-  CasterFn, Caster, TypeGuard, RuleFn, TypeChecker,
+  CasterFn, Caster, TypeGuard, RuleFn, TypeChecker, ErrorMessage,
 } from './types';
 import optional from './optional';
 import required from './required';
@@ -8,7 +8,10 @@ import map from './map';
 import defValue from './default';
 import { nullable } from './nullable';
 import either from './either';
-import { ErrorMessage, validation } from './validate';
+import { validate, validation } from './validate';
+import { memo } from '../helpers/memo0';
+
+export { is } from './is';
 
 export {
   CasterFn, Caster, TypeGuard, RuleFn, TypeChecker,
@@ -20,12 +23,12 @@ export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
 
     optional: {
       enumerable: true,
-      get: () => casterApi(optional(casterFn)),
+      get: memo(() => casterApi(optional(casterFn))),
     },
 
     nullable: {
       enumerable: true,
-      get: () => casterApi(nullable(casterFn)),
+      get: memo(() => casterApi(nullable(casterFn))),
     },
 
     restrict: {
@@ -57,6 +60,11 @@ export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
         invalidFactory: (errors: ErrorMessage[]) => Invalid,
         validFactory: (value: T) => Valid,
       ) => validation(casterFn, invalidFactory, validFactory),
+    },
+
+    validate: {
+      enumerable: true,
+      get: memo(() => validate(casterFn)),
     },
   });
 

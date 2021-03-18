@@ -36,6 +36,9 @@ describe('prod', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('Geo.%s is a Function', methodName => {
       expect((Geo as any)[methodName]).toBeInstanceOf(Function);
     });

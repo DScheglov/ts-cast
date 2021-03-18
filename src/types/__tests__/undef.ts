@@ -12,6 +12,9 @@ describe('undef', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('undef.%s is a Function', methodName => {
       expect((undef as any)[methodName]).toBeInstanceOf(Function);
     });

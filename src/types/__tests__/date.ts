@@ -12,6 +12,9 @@ describe('isoDate', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('isoDate.%s is a Function', methodName => {
       expect((isoDate as any)[methodName]).toBeInstanceOf(Function);
     });
@@ -84,6 +87,9 @@ describe('unixDateTimeStamp', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('unixDateTimeStamp.%s is a Function', methodName => {
       expect((unixDateTimeStamp as any)[methodName]).toBeInstanceOf(Function);
     });
@@ -157,6 +163,9 @@ describe('jsDateTimeStamp', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('jsDateTimeStamp.%s is a Function', methodName => {
       expect((jsDateTimeStamp as any)[methodName]).toBeInstanceOf(Function);
     });

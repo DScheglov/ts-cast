@@ -14,6 +14,9 @@ describe('union', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('union(int, str).%s is a Function', methodName => {
       expect((union(integer, string) as any)[methodName]).toBeInstanceOf(Function);
     });

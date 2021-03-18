@@ -24,6 +24,9 @@ describe('ref', () => {
       ['restrict'],
       ['map'],
       ['default'],
+      ['either'],
+      ['validation'],
+      ['validate'],
     ])('PersonRef.%s is a Function', methodName => {
       expect((PersonRef as any)[methodName]).toBeInstanceOf(Function);
     });

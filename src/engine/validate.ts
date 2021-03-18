@@ -1,16 +1,5 @@
 import { withName } from '../helpers/names';
-import { CasterFn } from './types';
-
-export type ErrorMessage = {
-  context: string | undefined,
-  message: string,
-};
-
-export type ValidationResult<T> = {
-  result?: T;
-  errors: ErrorMessage[];
-  ok: boolean;
-}
+import { CasterFn, ValidationResult, ErrorMessage } from './types';
 
 export const validate = <T>(casterFn: CasterFn<T>) =>
   (value: any, context?: string): ValidationResult<T> => {

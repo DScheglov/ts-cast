@@ -1,4 +1,5 @@
-import { Predicate, predicateName } from './predicate';
+import { predicateName } from './predicate';
+import { Predicate } from './types';
 
 export const toBe = <T>(
   predicate: Predicate<T>,
