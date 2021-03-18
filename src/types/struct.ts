@@ -41,7 +41,7 @@ const partial = <S extends {}>(schema: StructSchema<S>) =>
 export const struct = <S extends {}>(
   schema: StructSchema<S>,
   typeName: string = 'struct',
-): StructCaster<S> => {
+): StructCaster<OptionalUndefined<S>> => {
   const ref: { caster: CasterFn<S> } = {} as any;
   const caster = Object.defineProperties(
     createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema, ref)), {

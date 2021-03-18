@@ -60,20 +60,6 @@ export type TCoords = ReturnType<typeof Coords>;
 export type TBook = ReturnType<typeof Book>;
 ```
 
-So let's see how `TPerson`, `TCoords` and `TBook` look like:
-
-**TPerson**:
-
-![TPerson](./.assets/tperson.png)
-
-**TCoords**:
-
-![TCoords](./.assets/tcoords.png)
-
-**TBook**:
-
-![TBook](./.assets/tbook.png)
-
 Then we can use defined types and their `caster`-s in this way:
 
 **./src/index.ts**
