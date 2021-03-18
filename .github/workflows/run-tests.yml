@@ -22,7 +22,7 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install dependencies
-        run: npm install # switch to `npm ci` when Node.js 6 support is dropped
+        run: npm install
 
       - name: Lint
         run: npm run lint
@@ -52,6 +52,17 @@ jobs:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
     steps:
+      - name: Clone repo
+        uses: actions/checkout@v2
+
+      - name: Set Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+
       - name: Check Version
         run: ./version.sh
 
