@@ -50,6 +50,15 @@ jobs:
   publish:
     needs: report-coverage
     runs-on: ubuntu-latest
+    if: starts(github.ref, "refs/tags/v")
     steps:
-      - name: Show ref
-        run: echo ${{ github.ref }}
+      - name: Check Version
+        run: ./version.sh
+
+      - name: Compile
+        run: npm run compile
+
+      - name: Publish to npm
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
