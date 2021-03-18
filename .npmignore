@@ -2,8 +2,7 @@
 
 !/lib
 !/esm
-!/src
 !index.js
 !index.d.ts
 
-/src/**/__tests__/*.ts
+__tests__

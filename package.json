@@ -1,6 +1,6 @@
 {
   "name": "ts-cast",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Runtime typechecking",
   "main": "lib/index.js",
   "module": "esm/index.js",
@@ -35,10 +35,14 @@
     "typescript": "^3.7.5"
   },
   "eslintConfig": {
-    "extends": ["airbnb-base"],
+    "extends": [
+      "airbnb-base"
+    ],
     "overrides": [
       {
-        "files": ["*.ts"]
+        "files": [
+          "*.ts"
+        ]
       }
     ],
     "plugins": [
