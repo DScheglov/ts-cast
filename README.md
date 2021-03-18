@@ -23,7 +23,7 @@ Let's start with an example:
 
 ```typescript
 import { integer, number, string, struct, tuple, array } from 'ts-cast';
-import { toBe } from 'ts-cast/validation';
+import { toBe } from 'ts-cast/rules';
 import v from 'validator';
 
 export const Person = struct({

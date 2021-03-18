@@ -2,7 +2,7 @@ import v from 'validator';
 import { 
   integer, number, string, struct, tuple, array, union, nil, ref, createCaster, Caster 
 } from '../../../src';
-import { toBe } from '../../../src/restrictions';
+import { toBe } from '../../../src/rules';
 
 class TEmail extends String { private tag: Symbol
 };

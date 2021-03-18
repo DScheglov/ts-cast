@@ -1,5 +1,5 @@
 import { integer, number, string, struct, tuple, array } from '../../../src';
-import { toBe } from '../../../src/restrictions';
+import { toBe } from '../../../src/rules';
 import v from 'validator';
 
 export const Person = struct({
