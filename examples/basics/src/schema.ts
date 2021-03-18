@@ -1,5 +1,4 @@
-import { integer, number, string, struct, tuple, array } from '../../../src';
-import { toBe } from '../../../src/rules';
+import { integer, number, string, struct, tuple, array, toBe } from '../../../src';
 import v from 'validator';
 
 export const Person = struct({

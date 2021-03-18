@@ -22,5 +22,5 @@
   "types": ["jest", "node"],
   "lib": ["es6", "es7"],
   "include": ["src/**/*.ts"],
-  "exclude": ["node_modules", "src/**/*.test.ts"]
+  "exclude": ["node_modules"]
 }

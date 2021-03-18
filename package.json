@@ -3,9 +3,16 @@
   "version": "0.0.1",
   "description": "Runtime typechecking",
   "main": "lib/index.js",
+  "module": "esm/index.js",
   "scripts": {
     "test": "jest",
-    "lint": "eslint ."
+    "lint": "eslint \"./src/**/*.ts\"",
+    "compile:cjs": "tsc --build tsconfig.cjs.json",
+    "compile:esm": "tsc",
+    "clean:lib": "rm -rf ./lib",
+    "clean:esm": "rm -rf ./esm",
+    "clean": "npm run clean:lib; npm run clean:esm",
+    "compile": "npm run clean; npm run compile:cjs; npm run compile:esm"
   },
   "keywords": [
     "type",
