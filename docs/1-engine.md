@@ -50,7 +50,7 @@ const casterFn: CasterFn<number> = function yearOf21stCentury(
 ```
 
 <a name="2-caster"></a>
-## 2. Caster&lt;T&gt; <sup>type</sup>
+## 2. Caster&lt;T&gt; <sup>`type`</sup>
 
 The extenstion of the `CasterFn<T>` that contains properties and methods to build other types,
 including by mapping casted data.
@@ -137,8 +137,8 @@ someStr(null); // throws a TypeError
 ## 3. casterApi&lt;T&gt; <sup>`fn`</sup>
 
 <a name="4-create-caster"></a>
-## 4. createCaster&lt;T&gt; <sup>fn</sup>
+## 4. createCaster&lt;T&gt; <sup>`fn`</sup>
 
 
 <a name="5-validate"></a>
-## 5. validate&lt;T&gt; <sup>fn</sup>
+## 5. validate&lt;T&gt; <sup>`fn`</sup>
