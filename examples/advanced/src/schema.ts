@@ -2,13 +2,17 @@ import v from 'validator';
 import { 
   integer, number, string, struct, tuple, array, union, nil, ref, createCaster, Caster, toBe 
 } from 'ts-cast';
+import { CasterFn, ErrorReporter } from 'ts-cast/lib/engine/types';
 
 class TEmail extends String { private tag: Symbol
 };
 class TUUID extends String { private tag: Symbol };
 
-const isEmail = (value: unknown): value is TEmail => v.isEmail(value);
-const isUUID = (value: unknown): value is TUUID => v.isUUID(value);
+const isEmail = (value: unknown): value is TEmail => 
+  typeof value === 'string' && v.isEmail(value);
+
+const isUUID = (value: unknown): value is TUUID =>
+  typeof value === 'string' && v.isUUID(value);
 
 export const Email = createCaster('email', isEmail, (email): TEmail => email.toLowerCase());
 export const UUID = createCaster('uuid', isUUID);

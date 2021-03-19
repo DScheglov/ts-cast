@@ -26,6 +26,6 @@ const myBook = Book({
 
 const book: TBook = myBook;
 
-me.id = UUID('123123123'); // throws TypeError in runtime
+// me.id = UUID('123123123'); // throws TypeError in runtime
 
 console.log(JSON.stringify(book, null, 2));
