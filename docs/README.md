@@ -12,12 +12,12 @@ Runtime type checking for Typescript and JavaScript projects.
    5. [validate <sup>`fn`</sup>](./1-engine.md#5-validate)
 
 2. [Primitive Type Casters](./2-types.md#1-primitives)
-   1. [boolean](./2-types.md$1-1-boolean)
-   2. [integer](./2-types.md$1-2-integer)
-   3. [number](./2-types.md$1-3-number)
-   4. [string](./2-types.md$1-4-string)
-   5. [text.integer](./2-types.md$1-5-text.integer)
-   6. [text.number](./2-types.md$1-6-text.number)
+   1. [boolean](./2-types.md#1-1-boolean)
+   2. [integer](./2-types.md#1-2-integer)
+   3. [number](./2-types.md#1-3-number)
+   4. [string](./2-types.md#1-4-string)
+   5. [text.integer](./2-types.md#1-5-text.integer)
+   6. [text.number](./2-types.md#1-6-text.number)
 
 3. [Literal Types Casters](./2-types.md#2-literals)
    1. [value](./2-types.md#2-1-value)
@@ -34,7 +34,7 @@ Runtime type checking for Typescript and JavaScript projects.
    3. [struct](./2-types.md#4-3-struct)
    4. [tuple](./2-types.md#4-4-tuple)
 
-6. [Recursive Type Casters](./2-types.md)
+6. [Recursive Type Casters](./2-types.md#5-recursive)
 
 7. [Type Composition](./3-operations.md)
    1. [prod <sup>`fn`</sup>](./3-operations.md#1-prod)
@@ -62,8 +62,8 @@ Runtime type checking for Typescript and JavaScript projects.
    10. [matching](./4-restrictions.md#2-10-matching)
    11. [notEqual (ne)](./4-restrictions.md#2-11-ne)
 
-10. [Type Guards](./6-type-guards.md)
-
 ## How To
-   1. [Create Custom Types](./custom-types.md)
-   2. [Cast to Either&lt;\*, T&gt; and Validation&lt;\*, T&gt;](./monadic-caster.md)
+   1. [Create Custom Types](./5-custom-types.md)
+   2. [Cast to Either&lt;\*, T&gt; and Validation&lt;\*, T&gt;](./6-monadic-caster.md)
+   3. [Node: Express Example](./7-node-express.md)
+   4. [Browser: Fetch Example](./8-browser-fetch.md)

@@ -31,8 +31,8 @@ export interface Caster<T> extends CasterFn<T> {
   restrict(...rules: RuleFn<Exclude<T, null | undefined>>[]): Caster<T>;
 
   map<D>(
-    transform: (value: Exclude<T, null | undefined>
-  ) => D): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
+    transform: (value: Exclude<T, null | undefined>) => D
+  ): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
 
   default(defaltValue: T): Caster<Exclude<T, undefined>>;
 
