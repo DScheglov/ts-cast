@@ -30,6 +30,11 @@ type Person = { name: string, age: number };
 npm i ts-cast
 ```
 
+## [Documentation](https://github.com/DScheglov/ts-cast/tree/master/docs)
+
+Read `ts-cast` documentation on github: <br/>
+[https://github.com/DScheglov/ts-cast/tree/master/docs](https://github.com/DScheglov/ts-cast/tree/master/docs)
+
 ## Getting Started
 
 Let's start with an example:

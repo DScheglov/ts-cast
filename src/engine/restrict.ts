@@ -20,7 +20,7 @@ export const restrict = <T>(caster: CasterFn<T>, rules: RuleFn<T>[]) => {
   ): T => {
     const typedValue: T = caster(value, context, reportError);
 
-    if (!isEmpty(value)) rules.forEach(applyRule(typedValue, context, reportError));
+    if (!isEmpty(typedValue)) rules.forEach(applyRule(typedValue, context, reportError));
 
     return typedValue;
   };
