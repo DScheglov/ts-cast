@@ -9,6 +9,8 @@
     - [Method `.restrict`](#method-restrict)
     - [Method `.map`](#method-map)
     - [Method `.validate`](#method-validate)
+    - [Method `.either`](#method-either)
+    - [Method `.validation`](#method-validation)
   - [3. casterApi&lt;T&gt; <sup>`fn`</sup>](#3-casterapit-supfnsup)
   - [4. createCaster&lt;T&gt; <sup>`fn`</sup>](#4-createcastert-supfnsup)
   - [5. validate&lt;T&gt; <sup>`fn`</sup>](#5-validatet-supfnsup)
@@ -228,13 +230,13 @@ export type TID = ReturnType<typeof ID>; // ReturnType<Caster<string>> is string
 ### Method `.validate`
 
 ```ts
-(value: unknown, context?: string) => ValidationResult<T>;
+(value: unknown, context?: string) => ValidationResult<T>
 
-type ValidationResult<T> = {
-  ok: boolean;
-  result?: T;
-  errors: Array<{ message: string, context: string | undefined }>;
-}
+type ValidationResult<T> =
+  | { ok: true; result: T; errors: [] } 
+  | { ok: false; errors: NonEmptyArray<ErrorInContext> }
+
+type ErrorInContext = { context: string | undefined, message: string }
 ```
 
 Validates `value` of `unknown` type and returns a validation result object. The
@@ -327,6 +329,37 @@ printIntOrErr(10.23); // Error: integer is expected but "10.23" received
 
 **Returns**
  - **casting function**: `(value: unknown, context?: string) => Left | Right`
+
+### Method `.validation`
+
+```ts
+<Invalid, Valid>(
+  invalidFactory: (errors: NonEmptyError<ErrorInContext>) => Invalid, 
+  validFactory: (value: T) => Valid,
+) => (value: unknown, context?: string) => Invalid | Valid;
+
+type ErrorInContext = { context: string | undefined, message: string };
+```
+
+Creates a function that accepts value of `unknown` type, optional string context
+and returns result of type `Valid` if casting was performed successfully and 
+value of type `Invalid` otherwise.
+
+To build result of `Invalid` type the returned function uses `invalidFactory` that
+receives a non-empty array of `ErrorInContext`.
+
+The `.validation` method is designed to be used with `Validation` monad.
+
+
+**Arguments**
+
+|     Parameter      |                         Type                         | Mandatory | Description                                                          |
+| :----------------: | :--------------------------------------------------: | :-------: | :------------------------------------------------------------------- |
+| **invalidFactory** | `(errors: NonEmptyError<ErrorInContext>) => Invlaid` |    yes    | factory to create value that represents validation errors            |
+|  **rightFactory**  |                `(value: T) => Valid`                 |    yes    | factory to create value that represents successful validation result |
+
+**Returns**
+ - **casting function**: `(value: unknown, context?: string) => Invalid | Valid`
 
 <a name="3-caster-api"></a>
 ## 3. casterApi&lt;T&gt; <sup>`fn`</sup>

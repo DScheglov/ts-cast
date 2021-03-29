@@ -8,16 +8,18 @@ export type TypeChecker = (value: unknown) => boolean;
 
 export type ErrorReporter = (message: string, context?: string) => never;
 
+export type NonEmptyArray<T> = [T, ...T[]];
+
 export type ErrorMessage = {
   context: string | undefined,
   message: string,
 };
 
-export type ValidationResult<T> = {
-  result?: T;
-  errors: ErrorMessage[];
-  ok: boolean;
-}
+export type ValidationSuccess<T> = { ok: true; result: T; errors: [] };
+
+export type ValidationFailure = { ok: false, errors: NonEmptyArray<ErrorMessage> };
+
+export type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
 
 export interface CasterFn<T> {
   (value: unknown, context?: string, reportError?: ErrorReporter): T;
