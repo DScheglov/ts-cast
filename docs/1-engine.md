@@ -162,9 +162,11 @@ someStr(null); // throws a TypeError
 
 ```ts
 (...rules: RuleFn<Exclude<T, null | undefined>>[]) => Caster<T>
+
+type RuleFn<T> = (value: T) => string | null
 ```
 
-Creates new `Caster` that cheks if casted value satisfies restrictions described with one ore more `RuleFn`.
+Creates new `Caster` that checks if casted value satisfies restrictions described with one ore more `RuleFn`.
 
 The `RuleFn<T>` is a type of function that accepts: `value` of type `T`, optionally `context` of type `string`,
 and returns `null` if `value` satisfies rule and `string` with error message that descibes rule violation.
@@ -172,7 +174,7 @@ and returns `null` if `value` satisfies rule and `string` with error message tha
 <font color="red">Note</font>
 > if type `T` allows `null` or/and `undefined` the correspondent values will not be verified with any rule.
 
-More details avout restrictions are described in [Narrowing Types](./4-restrictions.md)
+More details about restrictions are described in [Narrowing Types](./4-restrictions.md)
 
 **Arguments**
 
@@ -226,7 +228,7 @@ export type TID = ReturnType<typeof ID>; // ReturnType<Caster<string>> is string
 ### Method `.validate`
 
 ```ts
-(value: unknown) => ValidationResult<T>;
+(value: unknown, context?: string) => ValidationResult<T>;
 
 type ValidationResult<T> = {
   ok: boolean;
@@ -268,12 +270,63 @@ validate('123', 'myValue');
 
 **Arguments**
 
-| Parameter | Type | Mandatory | Description |
-| :-------: | :--: | :-------: | :---------- |
-| **value** | `unknown` | yes | The value to be validated |
+|  Parameter  |   Type    | Mandatory | Description                                                            |
+| :---------: | :-------: | :-------: | :--------------------------------------------------------------------- |
+|  **value**  | `unknown` |    yes    | The value to be validated                                              |
+| **context** | `string`  |   _no_    | The string describes the validation context (aka field or object name) |
 
 **Returns**
   - **validationResult**: `ValidationResult<T>`
+
+### Method `.either`
+
+```ts
+<Left, Right>(
+  leftFactory: (error: TypeError) => Left, 
+  rightFactory: (value: T) => Right,
+) => (value: unknown, context?: string | undefined) => Left | Right
+```
+
+Creates a function that accepts value of `unknown` type, optional string context
+and returns result of type `Right` if casting was performed successfully and 
+value of type `Left` otherwise.
+
+To build result of `Left | Right` the function uses `leftFactory` and `rightFactory`
+those are usaully data constructors of `MayBe` or `Either` monad subtypes as also as
+`Left` and `Right` are usually are generic types.
+
+**Example**
+
+```ts
+import * as E from 'fp-ts/Either';
+import { pipe } from 'fp-ts/function';
+import { integer } from 'ts-cast';
+
+const printIntOrErr = (value: unknown) => pipe(
+  value,
+  integer.either(E.left, E.right),
+  E.map(x => x + 1),
+  E.mapLeft(({ message }) => message),
+  E.match(
+    error => `Error: ${error}`,
+    value => `Value: ${value}`
+  ),
+  console.log
+);
+
+printIntOrErr(10); // Value: 11
+printIntOrErr(10.23); // Error: integer is expected but "10.23" received
+```
+
+**Arguments**
+
+|    Parameter     |             Type             | Mandatory | Description                                                       |
+| :--------------: | :--------------------------: | :-------: | :---------------------------------------------------------------- |
+| **leftFactory**  | `(error: TypeError) => Left` |    yes    | factory to create value that represents casting failure           |
+| **rightFactory** |    `(value: T) => Right`     |    yes    | factory to create value that represents successful casting result |
+
+**Returns**
+ - **casting function**: `(value: unknown, context?: string) => Left | Right`
 
 <a name="3-caster-api"></a>
 ## 3. casterApi&lt;T&gt; <sup>`fn`</sup>
