@@ -44,7 +44,7 @@ export const struct = <S extends {}>(
 ): StructCaster<OptionalUndefined<S>> => {
   const ref: { caster: CasterFn<S> } = {} as any;
   const caster = Object.defineProperties(
-    createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema, ref)), {
+    createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema, ref)) as any, {
       name: {
         value: typeName,
       },

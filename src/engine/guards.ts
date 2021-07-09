@@ -1,4 +1,5 @@
 export const isEmpty = (value: unknown): value is null | undefined => value == null;
+export const isNotEmpty = <T>(value: T | null | undefined): value is T => value != null;
 
 export const isNumber = (value: unknown): value is number => typeof value === 'number';
 

@@ -20,7 +20,7 @@
     "strictNullChecks": true
   },
   "types": ["jest", "node"],
-  "lib": ["es6", "es7"],
+  "lib": ["es2020"],
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"]
 }

@@ -18,7 +18,7 @@ export {
 };
 
 export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
-  Object.defineProperties(casterFn, {
+  Object.defineProperties(casterFn as any, {
     ...Object.getOwnPropertyDescriptors(casterFn),
 
     optional: {

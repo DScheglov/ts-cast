@@ -8,4 +8,4 @@ export const joinNames = (names: string[], conjunction: string): string => (
 type WithName<T> = T extends (...args: any) => any ? T : T & { name: string; };
 
 export const withName = <T>(obj: T, name: string): WithName<T> =>
-  Object.defineProperty(obj, 'name', { value: name });
+  Object.defineProperty(obj as any, 'name', { value: name });
