@@ -4,8 +4,7 @@ import {
 } from 'ts-cast';
 import { CasterFn, ErrorReporter } from 'ts-cast/lib/engine/types';
 
-class TEmail extends String { private tag: Symbol
-};
+class TEmail extends String { private tag: Symbol };
 class TUUID extends String { private tag: Symbol };
 
 const isEmail = (value: unknown): value is TEmail => 

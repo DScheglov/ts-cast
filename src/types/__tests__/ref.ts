@@ -45,7 +45,7 @@ describe('ref (mutual)', () => {
   type TPerson = {
     name: string;
     email: string;
-    books: TBook[];
+    books: TBook[]; // eslint-disable-line no-use-before-define
   };
 
   type TBook = {
