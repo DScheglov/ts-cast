@@ -1,6 +1,6 @@
 {
   "name": "ts-cast",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Runtime typechecking",
   "main": "lib/index.js",
   "module": "esm/index.js",
