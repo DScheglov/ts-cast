@@ -17,7 +17,8 @@ describe('validate', () => {
       [boolean, boolean.name],
       [nil, nil.name],
       [values(1, 2, 3), '1|2|3'],
-    ])('%s(undefined) returns [{ message: "%s is expected but "undefined" received.", context: undefined }]',
+    ])(
+      '%s(undefined) returns [{ message: "%s is expected but "undefined" received.", context: undefined }]',
       (caster: any, typeName) => {
         const checkingResult = validate(caster)(undefined);
         expect(checkingResult).toEqual({
@@ -26,7 +27,8 @@ describe('validate', () => {
             { message: `${typeName} is expected but "undefined" received.`, context: undefined },
           ],
         });
-      });
+      },
+    );
   });
 
   describe('returns result for primitive types', () => {
@@ -36,7 +38,8 @@ describe('validate', () => {
       [boolean, true],
       [nil, null],
       [values(1, 2, 3), 3],
-    ])('%s returns { ok: true, result: %s }',
+    ])(
+      '%s returns { ok: true, result: %s }',
       (caster: any, result) => {
         const checkingResult = validate(caster)(result);
         expect(checkingResult).toEqual({
@@ -44,7 +47,8 @@ describe('validate', () => {
           errors: [],
           result,
         });
-      });
+      },
+    );
   });
 
   describe('works with arrays', () => {
@@ -98,7 +102,7 @@ describe('validate', () => {
         params: { id: '123' },
         query: {},
         body: {
-          name: 'Jhon',
+          name: 'John',
           email: 'john@mail.com',
         },
       })).toEqual({
@@ -108,7 +112,7 @@ describe('validate', () => {
           params: { id: '123' },
           query: {},
           body: {
-            name: 'Jhon',
+            name: 'John',
             email: 'john@mail.com',
           },
         },
@@ -176,13 +180,15 @@ describe('validation', () => {
       [boolean, boolean.name],
       [nil, nil.name],
       [values(1, 2, 3), '1|2|3'],
-    ])('%s(undefined) returns [{ message: "%s is expected but "undefined" received.", context: undefined }]',
+    ])(
+      '%s(undefined) returns [{ message: "%s is expected but "undefined" received.", context: undefined }]',
       (caster: any, typeName) => {
         const result = caster.validation(Invalid, Valid)(undefined);
         expect(result).toEqual(Invalid([
           { message: `${typeName} is expected but "undefined" received.`, context: undefined },
         ]));
-      });
+      },
+    );
   });
 
   describe('returns result for primitive types', () => {
@@ -192,26 +198,28 @@ describe('validation', () => {
       [boolean, true],
       [nil, null],
       [values(1, 2, 3), 3],
-    ])('%s.validation(Invalid, Valid) returns Valid(%s)',
+    ])(
+      '%s.validation(Invalid, Valid) returns Valid(%s)',
       (caster: any, result) => {
         const res = caster.validation(Invalid, Valid)(result);
         expect(res).toEqual(Valid(result));
-      });
+      },
+    );
   });
 
   describe('works with arrays: array(integer).validation(Invalid, Valid)', () => {
-    const ValiadationList = array(integer).validation(Invalid, Valid);
+    const ValidationList = array(integer).validation(Invalid, Valid);
 
     it('returns Valid([1, 2, 3]) for [1, 2, 3]', () => {
-      expect(ValiadationList([1, 2, 3])).toEqual(Valid([1, 2, 3]));
+      expect(ValidationList([1, 2, 3])).toEqual(Valid([1, 2, 3]));
     });
 
     it('returns Valid([]) for []', () => {
-      expect(ValiadationList([])).toEqual(Valid([]));
+      expect(ValidationList([])).toEqual(Valid([]));
     });
 
     it('returns Invalid wraps error for each invalid item', () => {
-      expect(ValiadationList(['a', 'b', 'c', 'd'])).toEqual(Invalid([
+      expect(ValidationList(['a', 'b', 'c', 'd'])).toEqual(Invalid([
         { message: 'integer is expected in #0 but "a" received.', context: '#0' },
         { message: 'integer is expected in #1 but "b" received.', context: '#1' },
         { message: 'integer is expected in #2 but "c" received.', context: '#2' },

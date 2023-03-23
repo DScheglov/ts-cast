@@ -21,7 +21,7 @@ const transformStruct = <S extends {}>(schema: StructSchema<S>, ref: CasterRef<S
         configurable: true,
         value: caster(
           (value as any)[field],
-          context ? `${context}.${field}` : `${field}`,
+          context ? `${context}.${String(field)}` : `${String(field)}`,
           reportError,
         ),
       }),
@@ -44,7 +44,12 @@ export const struct = <S extends {}>(
 ): StructCaster<OptionalUndefined<S>> => {
   const ref: { caster: CasterFn<S> } = {} as any;
   const caster = Object.defineProperties(
-    createCaster(typeName, isAnObj as TypeGuard<S>, transformStruct(schema, ref)) as any, {
+    createCaster(
+      typeName,
+      isAnObj as TypeGuard<S>,
+      transformStruct(schema, ref),
+    ) as any,
+    {
       name: {
         value: typeName,
       },

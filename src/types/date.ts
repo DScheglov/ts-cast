@@ -28,9 +28,7 @@ export const isoDate = createCaster(
 export const unixDateTimeStamp = createCaster(
   'UnixDateTimeStamp',
   value => typeof value === 'number',
-  (value, context, reportError): Date => parseDate(
-    'UnixDateTimeStamp', (value as number) * 1000, context, reportError,
-  ),
+  (value, context, reportError): Date => parseDate('UnixDateTimeStamp', (value as number) * 1000, context, reportError),
 );
 
 export const jsDateTimeStamp = createCaster(

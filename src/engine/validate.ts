@@ -1,9 +1,14 @@
 import { withName } from '../helpers/names';
 import {
-  CasterFn, ValidationResult, ErrorMessage, NonEmptyArray,
+  CasterFn, ValidationResult, ErrorMessage, NonEmptyArray, ValidationSuccess, ValidationFailure,
 } from './types';
 
 const isNonEmpty = <T>(value: T[]): value is NonEmptyArray<T> => value.length > 0;
+
+const success = <T>(result: T): ValidationSuccess<T> =>
+  ({ ok: true, result, errors: [] });
+const failure = (errors: NonEmptyArray<ErrorMessage>): ValidationFailure =>
+  ({ ok: false, result: undefined, errors });
 
 export const validate = <T>(casterFn: CasterFn<T>) =>
   (value: unknown, context?: string): ValidationResult<T> => {
@@ -13,9 +18,9 @@ export const validate = <T>(casterFn: CasterFn<T>) =>
     };
     try {
       const result = casterFn(value, context, reportError as any);
-      return isNonEmpty(errors) ? { ok: false, errors } : { ok: true, result, errors: [] };
+      return isNonEmpty(errors) ? failure(errors) : success(result);
     } catch (err) {
-      return { errors: [{ message: err.message, context }], ok: false };
+      return failure([{ message: err.message, context }]);
     }
   };
 

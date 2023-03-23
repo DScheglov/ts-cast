@@ -12,9 +12,7 @@ const checkFields = <K extends string, T>(
     Object.entries((value as {})).reduce(
       (obj, [key, val]) => {
         const newKey = keyCaster(key, context ? `key of ${context}` : 'key', reportError);
-        const newValue = valueCaster(
-          val, context ? `${context}.${key}` : key, reportError,
-        );
+        const newValue = valueCaster(val, context ? `${context}.${key}` : key, reportError);
 
         obj[newKey] = newValue;
         return obj;

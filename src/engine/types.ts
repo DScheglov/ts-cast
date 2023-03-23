@@ -17,7 +17,11 @@ export type ErrorMessage = {
 
 export type ValidationSuccess<T> = { ok: true; result: T; errors: [] };
 
-export type ValidationFailure = { ok: false, errors: NonEmptyArray<ErrorMessage> };
+export type ValidationFailure = {
+  ok: false;
+  result: undefined;
+  errors: NonEmptyArray<ErrorMessage>;
+};
 
 export type ValidationResult<T> = ValidationSuccess<T> | ValidationFailure;
 
@@ -36,7 +40,7 @@ export interface Caster<T> extends CasterFn<T> {
     transform: (value: Exclude<T, null | undefined>) => D
   ): Caster<D | Exclude<T, Exclude<T, null | undefined>>>;
 
-  default(defaltValue: T): Caster<Exclude<T, undefined>>;
+  default(defaultValue: T): Caster<Exclude<T, undefined>>;
 
   either<Right, Left>(
     leftFactory: (error: TypeError) => Left,
