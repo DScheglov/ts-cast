@@ -151,7 +151,7 @@ describe('struct', () => {
       [1],
       [{ email: 'some-email' }],
       [['some-email', 'some-name']],
-    ])('throwa a TypeError for %j', value => {
+    ])('throws a TypeError for %j', value => {
       expect(
         () => Person(value),
       ).toThrow(TypeError);
@@ -176,7 +176,7 @@ describe('struct', () => {
       [null],
       [1],
       [['some-email', 'some-name']],
-    ])('throwa a TypeError for %j', value => {
+    ])('throw a TypeError for %j', value => {
       expect(
         () => Person.partial(value),
       ).toThrow(TypeError);

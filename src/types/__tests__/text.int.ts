@@ -165,6 +165,19 @@ describe('text.int', () => {
     });
   });
 
+  describe('text.int.default', () => {
+    it.each([
+      [Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER],
+      [Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER],
+      [-100, -100],
+      [0, 0],
+      [100, 100],
+    ])('returns %s when undefined passed', (value, expected) => {
+      const textInt = text.integer.default(value);
+      expect(textInt(undefined)).toBe(expected);
+    });
+  });
+
   describe('text.int.nullable', () => {
     it.each([
       [null],

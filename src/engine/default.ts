@@ -7,7 +7,7 @@ const defValue = <T>(casterFn: CasterFn<T>, defaultValue: T): CasterFn<Exclude<T
     context?: string,
     reportError: ErrorReporter = throwTypeError,
   ) => (
-    casterFn(value !== undefined ? value : defaultValue, context, reportError)
+    value !== undefined ? casterFn(value, context, reportError) : defaultValue
   ) as any;
 
   Object.defineProperty(defaultCaster, 'name', { value: casterFn.name.replace(/\?$/, '') });

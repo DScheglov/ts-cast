@@ -240,8 +240,8 @@ describe('text.num', () => {
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
       expect(text.number.restrict(spy)(value.toString())).toBe(value);
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([
@@ -256,8 +256,8 @@ describe('text.num', () => {
       expect(
         () => text.number.restrict(spy)(value.toString()),
       ).toThrow(new TypeError(errorMessage));
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([
@@ -272,8 +272,8 @@ describe('text.num', () => {
       expect(
         () => text.number.restrict(spy)(value.toString(), 'param'),
       ).toThrow(new TypeError(errorMessage));
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
     it.each([
       [null],
@@ -310,8 +310,8 @@ describe('text.num', () => {
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
       expect(text.number.optional.restrict(spy)(value.toString())).toBe(value);
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([
@@ -326,8 +326,8 @@ describe('text.num', () => {
       expect(
         () => text.number.optional.restrict(spy)(value.toString()),
       ).toThrow(new TypeError(errorMessage));
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([
@@ -371,8 +371,8 @@ describe('text.num', () => {
     ])('successfully validates %s with rule', (value, rule) => {
       const spy = jest.fn(rule);
       expect(text.number.restrict(spy).optional(value.toString())).toBe(value);
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([
@@ -387,8 +387,8 @@ describe('text.num', () => {
       expect(
         () => text.number.restrict(spy).optional(value.toString()),
       ).toThrow(new TypeError(errorMessage));
-      expect(spy).toBeCalledTimes(1);
-      expect(spy).toBeCalledWith(value);
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(value);
     });
 
     it.each([

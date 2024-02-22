@@ -5,7 +5,9 @@ import {
 } from './types';
 
 const required = <T>(
-  typeName: string, typeGuard: TypeGuard<T> | TypeChecker, transform?: CasterFn<T>,
+  typeName: string,
+  typeGuard: TypeGuard<T> | TypeChecker,
+  transform?: CasterFn<T>,
 ): CasterFn<T> => withName(
     (value: unknown, context?: string, reportError: ErrorReporter = throwTypeError): T => {
       if (value === undefined || !typeGuard(value)) {
@@ -19,7 +21,7 @@ const required = <T>(
         typeof transform === 'function'
           ? transform(value, context, reportError)
           : value
-      );
+      ) as any;
     },
     typeName,
   );
