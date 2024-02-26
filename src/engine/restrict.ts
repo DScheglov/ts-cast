@@ -9,6 +9,7 @@ const applyRule = <T>(value: T, context?: string, reportError?: ErrorReporter) =
 
     reportError!(
       `${context ? `${context} should be` : 'expected value is'} ${error} but received ${value}.`,
+      context,
     );
   };
 

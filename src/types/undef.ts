@@ -11,6 +11,7 @@ const castUndefined = (
 
   return reportError(
     `undefined is expected${context ? ` in ${context}` : ''} but "${value}" received.`,
+    context,
   );
 };
 

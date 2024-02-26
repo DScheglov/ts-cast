@@ -1,3 +1,4 @@
+import { Expect, Equal } from '@type-challenges/utils';
 import { struct } from '../..';
 import { array } from '../array';
 import { integer } from '../integer';
@@ -73,14 +74,116 @@ describe('struct', () => {
       expect(Book).toBeInstanceOf(Function);
     });
 
+    it('generates type caster (complex object)', () => {
+      type TBook = {
+        title: string;
+        authors: Array<{ name: string, email: string, age?: number }>
+      };
+
+      const Book = struct({
+        title: string,
+        authors: array(struct({
+          name: string,
+          email: string,
+          age: integer.optional,
+        })),
+      });
+
+      type T = ReturnType<typeof Book>;
+
+      const check: Expect<Equal<T, TBook>> = true;
+
+      expect(check).toBe(true);
+    });
+
     it('generates a new type', () => {
-      const Person = struct({ name: string, email: string });
+      const Person = struct({ name: string, email: string, age: integer.optional });
+      const Book = struct({ title: string, authors: array(Person) });
+
+      type TBook = ReturnType<typeof Book>;
+
+      const check: Expect<Equal<
+        TBook, {
+          title: string,
+          authors: Array<{ name: string, email: string, age?: number }>
+        }>> = true;
+
+      expect(check).toBe(true);
+    });
+
+    it('generates a new type with optional fields', () => {
+      const Person = struct({ name: string, email: string.optional });
 
       type TPerson = ReturnType<typeof Person>;
 
-      const person: TPerson = { name: 'John', email: 'join@mail.com' };
+      const person: TPerson = { name: 'John' };
 
       expect(Person(person)).toEqual(person);
+    });
+
+    it('correctly generates a type for a huge object', () => {
+      const MessageTypes = {
+        BOOK_CREATED: 'BOOK_CREATED',
+        BOOK_UPDATED: 'BOOK_UPDATED',
+        BOOK_DELETED: 'BOOK_DELETED',
+
+        PERSON_CREATED: 'PERSON_CREATED',
+        PERSON_UPDATED: 'PERSON_UPDATED',
+        PERSON_DELETED: 'PERSON_DELETED',
+      } as const;
+
+      const PersonDetails = struct({
+        name: string,
+        email: string,
+      });
+
+      const BookDetails = struct({
+        title: string,
+        authors: array(string),
+      });
+
+      const MessageBody = {
+        [MessageTypes.BOOK_CREATED]: struct({
+          boolId: integer,
+          id: BookDetails,
+        }),
+        [MessageTypes.BOOK_UPDATED]: struct({
+          boolId: integer,
+          id: BookDetails.partial,
+        }),
+        [MessageTypes.BOOK_DELETED]: struct({
+          boolId: integer,
+        }),
+
+        [MessageTypes.PERSON_CREATED]: struct({
+          personId: integer,
+          id: PersonDetails,
+        }),
+        [MessageTypes.PERSON_UPDATED]: struct({
+          personId: integer,
+          id: PersonDetails.partial,
+        }),
+        [MessageTypes.PERSON_DELETED]: struct({
+          personId: integer,
+        }),
+      };
+
+      type TypeFromSchema<Schema extends { [key in string]: (value: unknown) => any }> = {
+        [key in keyof Schema]: ReturnType<Schema[key]>;
+      };
+
+      type TMessageBody = TypeFromSchema<typeof MessageBody>;
+
+      const check: Expect<Equal<TMessageBody, {
+        BOOK_CREATED: { boolId: number, id: { title: string, authors: string[] } };
+        BOOK_UPDATED: { boolId: number, id: { title?: string, authors?: string[] } };
+        BOOK_DELETED: { boolId: number };
+        PERSON_CREATED: { personId: number, id: { name: string, email: string } };
+        PERSON_UPDATED: { personId: number, id: { name?: string, email?: string } };
+        PERSON_DELETED: { personId: number };
+      }>> = true;
+
+      expect(check).toBe(true);
     });
   });
 

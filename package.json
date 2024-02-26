@@ -22,6 +22,7 @@
   "author": "Dmitry Scheglov <dmitry.scheglov@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@type-challenges/utils": "^0.1.1",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.15.5",
     "@typescript-eslint/eslint-plugin": "^5.56.0",

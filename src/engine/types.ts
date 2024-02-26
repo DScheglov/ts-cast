@@ -6,7 +6,7 @@ export type TypeGuard<T> = (value: unknown) => value is T;
 
 export type TypeChecker = (value: unknown) => boolean;
 
-export type ErrorReporter = (message: string, context?: string) => never;
+export type ErrorReporter = (message: string, context: string | undefined, code?: string) => never;
 
 export type NonEmptyArray<T> = [T, ...T[]];
 
@@ -55,12 +55,12 @@ export interface Caster<T> extends CasterFn<T> {
   validate(value: unknown): ValidationResult<T>;
 }
 
-export interface StructCaster<S extends {}> extends Caster<S> {
+export interface StructCaster<S extends Record<string|symbol, any>> extends Caster<S> {
   partial: Caster<Partial<S>>
 }
 
-export type StructSchema<S extends {}> = {
-  [field in keyof S]: CasterFn<S[field]>;
+export type StructSchema<S extends Record<string|symbol, any>> = {
+  [field in keyof S]-?: CasterFn<S[field]>;
 };
 
 export type Tuple = {
@@ -71,12 +71,19 @@ export type TupleSchema<T extends Tuple> = {
   [index in number]: CasterFn<T[index]>;
 };
 
-type KeysOfType<T, SelectedType> = {
-  [field in keyof T]: SelectedType extends T[field] ? field : never
+type OptionalFields<T> = {
+  [field in keyof T]: undefined extends T[field] ? field : never
 }[keyof T];
 
-type Optional<T> = Partial<Pick<T, KeysOfType<T, undefined>>>;
+type RequiredFields<T> = {
+  [field in keyof T]: undefined extends T[field] ? never : field
+}[keyof T];
 
-type Required<T> = Omit<T, KeysOfType<T, undefined>>;
+type Resolve<T> = {
+  [field in keyof T]: T[field]
+};
 
-export type OptionalUndefined<T> = Required<T> & Optional<T>;
+export type OptionalUndefined<T> = Resolve<
+  & { [key in OptionalFields<T>]?: T[key] }
+  & { [key in RequiredFields<T>]: T[key] }
+>
