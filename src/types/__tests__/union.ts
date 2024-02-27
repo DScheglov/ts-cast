@@ -73,7 +73,9 @@ describe('union', () => {
       [[1, 2, 3]],
     ])('throws TypeError for %s', value => {
       expect(() => intOrStr(value)).toThrow(
-        new TypeError(`integer|string is expected but "${value}" received.`),
+        new TypeError('integer|string is expected but no matching type was found:\n' +
+        `  - integer: integer is expected but "${value}" received.\n` +
+        `  - string: string is expected but "${value}" received.`),
       );
     });
 
@@ -90,9 +92,68 @@ describe('union', () => {
       [{ value: 1 }],
       [[]],
       [[1, 2, 3]],
-    ])('throws TypeError for %s', value => {
+    ])('throws TypeError for %s (with context)', value => {
       expect(() => intOrStr(value, 'field')).toThrow(
-        new TypeError(`integer|string is expected in field but "${value}" received.`),
+        new TypeError('integer|string is expected in field but no matching type was found:\n' +
+        `  - integer: integer is expected in field but "${value}" received.\n` +
+        `  - string: string is expected in field but "${value}" received.`),
+      );
+    });
+  });
+
+  describe('::with optional type', () => {
+    const intOrStr = union(integer, string.optional);
+
+    it.each([
+      [Number.MIN_SAFE_INTEGER],
+      [Number.MAX_SAFE_INTEGER],
+      [-100],
+      [0],
+      [100],
+      [''],
+      ['hello world'],
+      [undefined],
+    ])('bypasses %s', value => {
+      expect(intOrStr(value)).toBe(value);
+    });
+
+    it.each([
+      [null],
+      [Number.NEGATIVE_INFINITY],
+      [Number.POSITIVE_INFINITY],
+      [-Math.PI],
+      [Math.PI],
+      [false],
+      [true],
+      [{}],
+      [{ value: 1 }],
+      [[]],
+      [[1, 2, 3]],
+    ])('throws TypeError for %s', value => {
+      expect(() => intOrStr(value)).toThrow(
+        new TypeError('integer|string | undefined is expected but no matching type was found:\n' +
+        `  - integer: integer is expected but "${value}" received.\n` +
+        `  - string | undefined: string is expected but "${value}" received.`),
+      );
+    });
+
+    it.each([
+      [null],
+      [Number.NEGATIVE_INFINITY],
+      [Number.POSITIVE_INFINITY],
+      [-Math.PI],
+      [Math.PI],
+      [false],
+      [true],
+      [{}],
+      [{ value: 1 }],
+      [[]],
+      [[1, 2, 3]],
+    ])('throws TypeError for %s (with context)', value => {
+      expect(() => intOrStr(value, 'field')).toThrow(
+        new TypeError('integer|string | undefined is expected in field but no matching type was found:\n' +
+        `  - integer: integer is expected in field but "${value}" received.\n` +
+        `  - string | undefined: string is expected in field but "${value}" received.`),
       );
     });
   });

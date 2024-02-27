@@ -1,15 +1,23 @@
-import { createCaster } from '../engine';
+import { casterApi } from '../engine';
+import { throwTypeError } from '../engine/throw-type-error';
 import { Caster, CasterFn, ErrorReporter } from '../engine/types';
+import { withName } from '../helpers/names';
 
 const checkTypes = (casters: CasterFn<any>[], typeName: string) => {
-  const unionCasterFn = (value: unknown, context?: string, reportError?: ErrorReporter) => {
+  const unionCasterFn = (
+    value: unknown,
+    context?: string,
+    reportError: ErrorReporter = throwTypeError,
+  ) => {
     let match: any;
+    const errors: string[] = [];
 
     const isMatched = casters.some(caster => {
       try {
         match = caster(value, context);
         return true;
       } catch (err) {
+        errors.push(`${caster.name}: ${err.message}`);
         return false;
       }
     });
@@ -17,7 +25,8 @@ const checkTypes = (casters: CasterFn<any>[], typeName: string) => {
     if (isMatched) return match;
 
     return reportError!(
-      `${typeName} is expected${context ? ` in ${context}` : ''} but "${value}" received.`,
+      `${typeName} is expected${context ? ` in ${context}` : ''} but no matching type was found:\n${
+        errors.map(e => `  - ${e}`).join('\n')}`,
       context,
     );
   };
@@ -139,8 +148,9 @@ export const union: {
   }
 
   const typeName = casters.map(c => c.name).join('|');
+  const casterFn = checkTypes(casters, typeName);
 
-  return createCaster(typeName, (() => true) as any, checkTypes(casters, typeName));
+  return casterApi(withName(casterFn, typeName));
 };
 
 export const firstOf = union;
