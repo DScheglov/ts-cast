@@ -1,5 +1,5 @@
 import {
-  prod, struct, record, number, string,
+  allOf, struct, record, number, string,
 } from '../..';
 import { any } from '../any';
 
@@ -17,9 +17,9 @@ describe('prod', () => {
 
   const AnyRecord = record(string, any);
 
-  const Geo = prod(Point, Address);
+  const Geo = allOf(Point, Address);
 
-  const GeoExt = prod(AnyRecord, Geo);
+  const GeoExt = allOf(AnyRecord, Geo);
 
   it('Geo.name === "Point & Address"', () => {
     expect(Geo.name).toBe('Point & Address');

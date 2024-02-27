@@ -16,7 +16,7 @@ export { struct } from './types/struct';
 export { record } from './types/record';
 export { tuple } from './types/tuple';
 export { array } from './types/array';
-export { union } from './types/union';
-export { prod } from './types/prod';
+export { union, firstOf, oneOf } from './types/union';
+export { allOf, prod } from './types/prod';
 
 export * from './types/date';

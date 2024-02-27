@@ -142,3 +142,6 @@ export const union: {
 
   return createCaster(typeName, (() => true) as any, checkTypes(casters, typeName));
 };
+
+export const firstOf = union;
+export const oneOf = union;
