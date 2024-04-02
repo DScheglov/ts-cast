@@ -53,6 +53,8 @@ export interface Caster<T> extends CasterFn<T> {
   ): CasterFn<Valid | Invalid>;
 
   validate(value: unknown): ValidationResult<T>;
+  toBe<S extends T>(guard: (value: T) => value is S, typeName?: string): Caster<S>;
+  toBe(predicate: (value: T) => boolean, typeName?: string): Caster<T>;
 }
 
 export interface StructCaster<S extends Record<string|symbol, any>> extends Caster<S> {
@@ -87,3 +89,6 @@ export type OptionalUndefined<T> = Resolve<
   & { [key in OptionalFields<T>]?: T[key] }
   & { [key in RequiredFields<T>]: T[key] }
 >
+
+export type Predicate<T> = (value: T) => boolean;
+export type Guard<T, S extends T> = (value: T) => value is S;

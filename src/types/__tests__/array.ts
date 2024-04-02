@@ -84,4 +84,27 @@ describe('array', () => {
       );
     });
   });
+
+  describe('::toBe(nonEmpty)', () => {
+    type NonEmptyArray<T> = [T, ...T[]];
+    const nonEmptyInts = array(integer).toBe(
+      (value: number[]): value is NonEmptyArray<number> => value.length > 0,
+      'NonEmptyInt[]',
+    );
+
+    it('nonEmptyInts([]) throws a TypeError', () => {
+      expect(() => nonEmptyInts([])).toThrow(
+        new TypeError('NonEmptyInt[] expected but "" received.'),
+      );
+    });
+
+    it('nonEmptyInts([1]) === [1]', () => {
+      const list = nonEmptyInts([1]);
+      expect(list).toEqual([1]);
+    });
+
+    it('nonEmptyInts([1, 2]) === [1, 2]', () => {
+      expect(nonEmptyInts([1, 2])).toEqual([1, 2]);
+    });
+  });
 });

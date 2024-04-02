@@ -1,6 +1,6 @@
 import { restrict } from './restrict';
 import {
-  CasterFn, Caster, TypeGuard, RuleFn, TypeChecker, ErrorMessage,
+  CasterFn, Caster, TypeGuard, RuleFn, TypeChecker, ErrorMessage, Predicate, Guard,
 } from './types';
 import optional from './optional';
 import required from './required';
@@ -10,6 +10,7 @@ import { nullable } from './nullable';
 import either from './either';
 import { validate, validation } from './validate';
 import { memo } from '../helpers/memo0';
+import { toBe } from './to-be';
 
 export { is } from './is';
 
@@ -65,6 +66,15 @@ export const casterApi = <T>(casterFn: CasterFn<T>): Caster<T> =>
     validate: {
       enumerable: true,
       get: memo(() => validate(casterFn)),
+    },
+
+    toBe: {
+      enumerable: true,
+      value:
+        <S extends T>(
+        predicate: Predicate<T> | Guard<T, S>,
+        typeName?: string,
+      ) => casterApi(toBe(casterFn, predicate, typeName)) as Caster<T | S>,
     },
   });
 

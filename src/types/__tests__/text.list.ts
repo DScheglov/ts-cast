@@ -48,4 +48,25 @@ describe('text.list', () => {
       );
     });
   });
+
+  describe('::text.list(string).toBe(nonEmpty)', () => {
+    const nonEmpty = (value: string[]): value is [string, ...string[]] => value.length > 0;
+    const nonEmptyStrList = text.list(string).toBe(nonEmpty);
+
+    it('it must have name "nonEmpty"', () => {
+      expect(nonEmptyStrList.name).toBe('list(string)<nonEmpty>');
+    });
+
+    it('allows to define a list of nonEmptyStrings', () => {
+      const listOfNonEmptyStrings = text.list(string).toBe(
+        values => values.every(value => value.length > 0),
+        'List of non-empty strings',
+      );
+
+      expect(listOfNonEmptyStrings('a,b,c')).toEqual(['a', 'b', 'c']);
+      expect(() => listOfNonEmptyStrings('a,,c')).toThrow(
+        new TypeError('List of non-empty strings expected but "a,,c" received.'),
+      );
+    });
+  });
 });
